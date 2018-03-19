@@ -8437,7 +8437,7 @@ int main() {
 		cout << "NO" << endl;
 	}
 }*/
-
+/*
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
@@ -8447,12 +8447,2343 @@ int main() {
 #include <queue>
 #include <cmath>
 #include <iomanip>
-#define MAXN 6000
+#define MAXN 11000
+#define inf 0x3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+int cmp(const void *a, const void *b) {
+	return *((int *)a) - *((int *)b);
+}
+int a[MAXN], b[MAXN], c[MAXN*2];
+int n, m;
+
+
+int main() {
+	while (cin >> n >> m&&n>0&&m>0) {
+		int k=0;
+		for (int i = 0; i < n; ++i) {
+			cin >> a[i];
+			c[k++] = a[i];
+		}
+		for (int j = 0; j < m; ++j) {
+			cin >> b[j];
+			c[k++] = b[j];
+		}
+		qsort(c, k, sizeof(int), cmp);
+		if (c[k - 1] == c[k - 2])
+			k--;
+		for (int i = 0; i < k-1; ++i) {
+			if (!(i != 0 && c[i - 1] == c[i])) {
+				cout << c[i] << ' ';
+			}
+		}
+		cout << c[k - 1];
+		cout << endl;
+	}
+	return 0;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <iomanip>
+#define MAXN 11000
+#define inf 0x3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+int cmp(const void *a, const void *b) {
+	return *((int *)a) - *((int *)b);
+}
+
+int a, b;
+
+int main() {
+	while (cin >> a >> b) {
+		cout << (a - 1)*b - a << ' ' << (a - 1)*(b - 1) / 2 << endl;
+	}
+	return 0;
+}*/
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <iomanip>
+#define MAXN 110000
 #define inf 0x3f3f3f3f
 #define ll long long
 #define Clear(a) memset((a),0,sizeof((a)))
 using namespace std;
 
+int a[MAXN];
+int n, k;
+bool check(ll mid) {
+	ll sum = 0;
+	for (int i = 0; i < n; ++i) {
+		if (a[i] - mid > 0) {
+			sum += (a[i] - mid+k-2) / (k - 1);
+			if (sum > mid)return false;
+		}
+	}
+	return true;
+}
+int main() {
+	while (scanf("%d",&n)!=EOF) {
+		ll min = inf, max = -inf;
+		for (int i = 0; i < n; ++i) {
+			scanf("%d", &a[i]);
+			min = min > a[i] ? a[i] : min;
+			max = max < a[i] ? a[i] : max;
+		}
+		scanf("%d", &k);
+		if (k == 1) {
+			printf("%d\n", max);
+			continue;
+		}
+		ll l = min/k, r = max;
+		while (l <= r) {
+			ll mid = (l + r) >> 1;
+			if (check(mid)) {
+				r = mid - 1;
+			}
+			else {
+				l = mid + 1;
+			}
+			//cout << l << ' ' << r << endl;
+		}printf("%d\n", l);
+	}
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <iomanip>
+#define MAXN 330
+#define inf 0x3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+#define DATA 90
+int visit[MAXN], edge[MAXN][DATA],used[MAXN],pairn[DATA];
+int n, t;
+bool find(int k) {
+	for (int i = 1; i <= 7*12; ++i) {
+		if (edge[k][i] && !used[i]) {
+			used[i] = 1;
+			if (pairn[i] == 0 || find(pairn[i])) {
+				pairn[i] = k;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+int main() {
+	while (cin >> n) {
+		Clear(visit);
+		Clear(edge);
+		Clear(pairn);
+		for (int i = 1; i <= n; ++i) {
+			cin >> t;
+			while (t--) {
+				int a, b,p;
+				cin >> a >> b;
+				p = (a - 1) * 12 + b;
+				edge[i][p] = 1;
+			}
+		}
+		int num = 0;
+		for (int i = 1; i <= n; ++i) {
+			Clear(used);
+			if (find(i))++num;
+		}cout << num << endl;
+	}
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <iomanip>
+#define MAXN 1100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int a[MAXN][2];
+int n, k;
+struct Node{
+	int i,j;
+	float dis;
+}node[MAXN*MAXN];
+int t[MAXN];
+bool cmp(Node a, Node b) {
+	return a.dis<b.dis;
+}
+
+int find_head(int k) {
+	if (t[k] != k) {
+		t[k] = find_head(t[k]);
+	}
+	return t[k];
+}
+int main() {
+	cout << setiosflags(ios::fixed) << setprecision(2);
+	while (cin >> n >> k) {
+		for (int i = 0; i < n; ++i) {
+			cin >> a[i][0] >> a[i][1];
+		}
+		int p = 0;
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < n; ++j) {
+				if (i != j) {
+					node[p].dis = sqrt((float)(a[i][0] - a[j][0])*(a[i][0] - a[j][0]) + (a[i][1] - a[j][1])*(a[i][1] - a[j][1]));
+					node[p].i = i;
+					node[p++].j = j;
+				}
+			}
+		}
+		sort(node,node+p,cmp);
+		for (int i = 0; i < n; ++i) {
+			t[i] = i;
+		}
+		/*for (int i = 0; i < p; ++i)
+			cout << node[i].dis << ' ';
+		cout << endl;*//*
+		int num = n,i;
+		for (i = 0; i<p; ++i) {
+			int p1 = node[i].i, p2 = node[i].j;
+			p1 = find_head(p1);
+			p2 = find_head(p2);
+			if (p1 != p2) {
+				t[p1] = p2;
+				if (num > k)
+					--num;
+				else { cout << node[i].dis << endl; break; }
+			}
+		}
+		//cout << i;
+	}
+	return 0;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <iomanip>
+#define MAXN 60
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int p,q,t;
+ll a[MAXN];
+int main() {
+	a[1] = 1;
+	a[2] = 1;
+	for (int i = 3; i < MAXN; ++i) {
+		a[i] = a[i -1] + a[i - 2];
+	}
+	cin >> t;
+	while(t--)
+	{
+	cin >> p >> q; 
+		q = q - p + 1;
+		cout << a[q] << endl;
+	}
+	return 0;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <iomanip>
+#define MAXN 60
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+
+int a,m, n,k;
+int t;
+
+int gcd(int a, int b) {
+	while (a%b) {
+		int temp = a;
+		a = b;
+		b = temp % b;
+	}
+	return b;
+}
+ll power(ll a, ll b, ll mod) {
+	ll ans=1;
+	while (b) {
+		if (b & 1) {
+			ans = (ans*a)%mod;
+			--b;
+		}
+		else {
+			a = (a*a)%mod;
+			b >>= 1;
+		}
+	}
+	return ans;
+}
+int main() {
+	cin >> t;
+	while (t--) {
+		cin >> a >> m >> n >> k;
+		ll s;
+		//cout << gcd(m, n) << endl;
+		s = (power(a,gcd(m,n),k)-1+k)%(ll)k;
+		cout << s << endl;
+	}
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <iomanip>
+#define MAXN 1000100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int a[MAXN],pri[MAXN];
+ll f[MAXN];
+int n;
+
+ll Divide(int n) {
+	int num = 0, div;
+	for (int j = 0; pri[j] <= (int)sqrt(n*1.0); ++j) {
+		if (n%pri[j] == 0) {
+			num++;
+			while (n%pri[j] == 0)n /= pri[j];
+			div = pri[j];
+		}
+		if (num > 1)
+			return  1;
+	}
+	if (n > 1) {
+		num++;
+		div = n;
+	}//因为循环中素数的大小到了根号n就没了，所以n可能还剩下素因子
+	if (n == 1)return div;
+	else return 1;
+}
+int main() {
+	Clear(a);
+	int k = 0;
+	for (int i = 2; i < MAXN - 10; ++i) {
+		if (!a[i])
+		{
+			pri[k++] = i;
+			for (int j = 2; j <= (MAXN - 10) / i; ++j) {
+				a[i*j] = 1;
+			}
+		}
+	}
+	f[3] = 3;
+	for (int i = 4; i < MAXN - 10; ++i) {
+		if (!a[i]) {
+			f[i] = f[i - 1] + i;
+		}
+		else {
+			f[i] = f[i - 1] + Divide(i);
+		}
+	}
+	while (cin >> n) {
+		cout << f[n] << endl;
+	}
+	return 0;
+}*/
+
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <iomanip>
+#define MAXN 50
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int order[MAXN], a[MAXN], len[MAXN],order_s[MAXN];
+int n;
+int find_position(int key,int k) {
+	int l = 1, r = k;
+	while (l <= r) {
+		int mid = (l + r) >> 1;
+		if (len[mid] < key) {
+			l = mid + 1;
+		}
+		else {
+			r = mid - 1;
+		}
+	}
+	return l;
+}
+int main() {
+	cin >> n;
+	int q = 0;
+	for (int i = 1; i <=n; ++i) {
+		cin >> order[i];
+	}
+	while (true) {
+		bool flag=true;
+		int p = 1;
+		for (int i = 1; i <=n; ++i) {
+			int temp;
+			if (cin >> temp) {
+				order_s[temp] = p++;
+			}
+			else {
+				flag = false;
+				break;
+			}
+		}
+		if (!flag)break;
+		for (int i = 1; i <= n; ++i) {
+			a[i] = order[order_s[i]];
+		}
+		len[1] = a[1];
+		int k = 1;
+		for (int i = 2; i <= n; ++i) {
+			if (a[i] > len[k]) {
+				len[++k] = a[i];
+			}
+			else {
+				int p=find_position(a[i],k);
+				if(len[p]>a[i])
+				len[p] = a[i];
+			}
+		}
+		cout << k << endl;
+	}
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#define MAXN 10
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+const int direction[4][2] = { {1,0},{0,1},{-1,0},{0,-1} };
+struct situation {
+	int a[MAXN];
+	int step;
+};
+queue<situation> v;
+int a[MAXN][MAXN],b[MAXN][MAXN];
+int n, m,k;
+int dfs(situation);
+int sign[MAXN][MAXN];
+bool end_s(situation &s) {
+	bool flag = true;
+	for (int i = 0; i < n; ++i) {
+		if (s.a[i]) {
+			flag = false; break;
+		}
+	}
+	if (flag) {
+		return true;
+	}
+	else return false;
+}
+void find_way(int i, int j,int key, int a[MAXN][MAXN], int c[MAXN][MAXN]) {
+	c[i][j] =b[i][j]= 1;
+	for (int k = 0; k < 4; ++k) {
+		int p = i + direction[k][0], q = j + direction[k][1];
+		if (c[p][q] == 0 && a[p][q] == key&&q>=0&&p>=0&&p<n&&q<m) {
+			find_way(p, q, key, a, c);
+		}
+	}
+}
+void compressed(situation &s) {
+	for (int i = 0; i < n; ++i) {
+		int compress = 0;
+		for (int j = 0; j < m; ++j) {
+			compress = compress * 10 + a[i][j];
+		}
+		s.a[i]=compress;
+	}
+}
+int Destroy(int i, int j) {
+	int b[MAXN][MAXN];
+	Clear(b);
+	find_way(i, j,a[i][j], a, b);
+	/*for (int i = 0; i < n; ++i)
+	{
+		for (int j = 0;j < m; ++j)
+			cout << b[i][j] << ' ';
+		cout << endl;
+	}
+	cout << endl;
+	*//*
+	for (int j = m - 1; j >= 0; --j) {
+		int t = 0, c[MAXN];
+		for (int i = n - 1; i >= 0; --i) {
+			if (b[i][j] == 0&&a[i][j]!=0) {
+				c[t++] = a[i][j];
+			}
+		}
+		if (t == 0) {
+			for (int l = j + 1; l <= m; ++l) {
+				for (int h = 0; h < n; ++h) {
+					a[h][l - 1] = a[h][l];
+					a[h][l] = 0;
+				}
+			}
+			//cout << a[n - 1][m - 1] << "tttt";
+		}
+		else {
+			for (int i = n-1; i>=0; --i) {
+				if ((n - 1 - i) < t) {
+					a[i][j] = c[n - 1 - i];
+				}
+				else a[i][j] = 0;
+			}
+		}
+	}*/
+	/*for (int i = 0; i < n; ++i) {
+		for (int j = 0; j < m; ++j) {
+			cout << a[i][j] << ' ';
+		}
+		cout << endl;
+	}*//*
+	return 0;
+}
+void decode(int s[MAXN]) {
+	for (int i = 0; i < n; ++i) {
+		for (int j = m - 1; j >= 0; --j) {
+			a[i][j] = s[i] % 10;
+			s[i] /= 10;
+		}
+	}
+}
+int ans;
+int bfs(situation s){
+	while (!v.empty()) { v.pop(); }v.push(s);
+	while (!v.empty()) {
+		s = v.front();
+		v.pop();
+		decode(s.a);
+		int temp[MAXN][MAXN];
+		Clear(b);
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < m; ++j) {
+				temp[i][j] = a[i][j];
+			}
+		}
+		for (int j = 0; j < m; ++j) {
+			for (int i = n-1; i>=0; --i) {
+				if (a[i][j] == 0)break;
+				if (b[i][j])continue;
+				Destroy(i, j);
+				situation u;
+				u.step = s.step + 1;
+				*//*cout <<"s"<< u.step<<"s";
+				for (int i = 0; i < n; ++i) {
+					for (int j = 0; j < m; ++j) {
+						cout << a[i][j] << ' ';
+					}cout << endl;
+				}cout << endl;*//*
+				compressed(u);
+				if (end_s(u)) { ans = u.step; return ans; }
+				v.push(u);
+				for (int i = 0; i < n; ++i) { for (int j = 0; j < m; ++j)a[i][j] = temp[i][j]; }
+			}
+		}
+	}return 0;
+}
+int main() {
+	while (cin >> n >> m) {
+		situation temp;
+		k = 0;
+		for (int i = 0; i < n; ++i) {
+			int compressed=0;
+			for (int j = 0; j < m; ++j) {
+				cin >> a[i][j];
+				compressed = compressed * 10 + a[i][j];
+			}
+			temp.a[i] = compressed;
+		}
+		temp.step = 0;
+		cout<<bfs(temp)<<endl;
+	}
+	return 0;
+}*/
+
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#define MAXN 600100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int a, b;
+int gcd(int a, int b) {
+	while (a%b) {
+		int temp = a;
+		a = b;
+		b = temp % b;
+	}
+	return b;
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		cin >> a >> b;
+		int c, temp;
+		temp = a / b;
+		for (int i = 2; i <= temp; ++i) {
+			int result = gcd(i, temp);
+			if (result == 1) {
+				c = i;
+				break;
+			}
+		}
+		cout << c*b << endl;
+	}
+	return 0;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 600100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int t, n;
+int mole[MAXN];
+struct Node {
+	int val;
+	int minn, maxn;
+	int left, right;
+	int parent;
+};
+Node tree[(int)(MAXN * 2)];
+int cnt;
+//map<int, int> tree, minn, maxn;
+char str[MAXN * 2];
+char sample[7100];
+int nextn[7100];
+void Insert(int key,int i,int p) {
+	if (tree[i].val == 0) {
+		tree[i].val = key;
+		tree[i].minn = key;
+		tree[i].maxn = key;
+		tree[i].left = 0;
+		tree[i].right = 0;
+		tree[i].parent = p;
+		cnt++;
+		return;
+	}
+	//cout << tree[i].val<< ' ';
+	if (key < tree[i].val) {
+		tree[i].minn = tree[i].minn > key ? key : tree[i].minn;
+		if (tree[i].left == 0) {
+			tree[i].left = cnt;
+			Insert(key, cnt,i);
+			
+		}
+		else {
+			Insert(key, tree[i].left,i);
+		}
+	}
+	else {
+	 tree[i].maxn = tree[i].maxn < key ? key : tree[i].maxn;
+	 if (tree[i].right == 0) {
+		 tree[i].right = cnt;
+		 Insert(key, cnt,i);
+	 }
+	 else {
+		 Insert(key, tree[i].right,i);
+	 }
+	}
+	
+}
+int nowpos;
+char get_gender() {
+	if (tree[nowpos].val % 2) {
+		return '1';
+	}
+	else return '0';
+}
+int len = 0;
+int Search(int key) {
+	if (tree[nowpos].val == key) {
+		return 0;
+	}
+	*(str + len) = get_gender();
+	len++;
+	str[len] = '\0'; //cout << str<<":";
+	//cout <<tree[nowpos].val<<' '<<tree[nowpos].minn<<' '<<tree[nowpos].maxn << endl; system("pause");
+	int temp = nowpos;
+	int parent = tree[nowpos].parent;
+	if (tree[nowpos].maxn<key || tree[nowpos].minn>key) {
+		nowpos = parent;
+	}
+	else if (key>tree[nowpos].val) {
+		nowpos = tree[nowpos].right;
+	}
+	else if (key<tree[nowpos].val) {
+		nowpos = tree[nowpos].left;
+	}
+	if (temp == nowpos)return 0;
+	//if (len >MAXN)return 0;
+	if (tree[nowpos].val == key)
+		return 2;
+	else { int ans = Search(key) + 1; return ans; }
+}
+int get_next() {
+	Clear(nextn);
+	int plen = strlen(sample) + 1;
+	nextn[0] = -1;
+	sample[plen - 1] = sample[0];
+	int j = 0;
+	int k = -1;
+	while (j < plen - 1) {
+		if (k == -1 || sample[j] == sample[k]) {
+			++k;
+			++j;
+			nextn[j] = k;
+
+		}
+		else {
+			k = nextn[k];
+		}
+	}
+	sample[plen - 1] = '\0';
+	return 0;
+}
+int kmp() {
+	int ans = 0;
+	int i = 0;
+	int j = 0;
+	int slen = strlen(str);
+	int plen = strlen(sample);
+	if (slen < plen)
+		return 0;
+	while (i < slen) {
+		if (j == -1 || str[i] == sample[j]) {
+			++i;
+			++j;
+		}
+		else {
+			j = nextn[j];
+		}
+		if (j == plen - 1 && i<slen) {
+			ans++; //j = nextn[j]; //cout << i<<'-'<<j << ' ';
+		}
+	}
+	return ans;
+}
+int main() {
+	int Case = 1;
+	cin >> t;
+	//cout << tree.max_size() << "s";
+	while (t--) {
+		cin >> n;
+		cnt = 1;
+		for (int i = 0; i < n; ++i) {
+			cin >> mole[i];
+		}
+		Clear(tree);
+		//tree[1] = mole[0];
+		for (int i = 0; i < n; ++i) {
+		
+			//cout << mole[i] << ":";	
+			Insert(mole[i], 1,0);
+			//cout << endl;
+			//cout << "cnt:" << cnt << endl;
+		}
+		//cout << tree[1] << endl;
+		nowpos = 1;
+		len = 0;
+		for (int i = 1; i <= n; ++i) {
+			Search(i);
+		}
+		Search(mole[0]);
+		str[len] = get_gender();
+		str[len + 1] = '\0';
+		cin >> sample;
+		get_next();
+		//cout << str<<endl;
+		cout << "Case #" << Case++ << ": " << kmp() << endl;
+	}
+	return 0;
+}*/
+
+
+
+
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 32000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+double k, d, t;
+double ans;
+struct {
+	double ans,tk,i;
+}a[MAXN];
+
+int main() {
+	while (cin >> k >> d >> t) {
+		int tim = k / d;
+		ans = 0;
+		while (t > 0) {
+			if (t <= (tim*d+(k-tim*d)+(d-k+tim*d)/2)) {
+				if (t <= tim * d)
+				{
+					ans += t, t = 0;
+					break;
+				}
+				else ans += tim * d;
+				t -= tim * d;
+				if (t <= (k - tim * d)) {
+					ans+=t;
+					t = 0;
+				}
+				else {
+					ans += k-tim*d;
+					t = t - (k - tim * d);
+					ans += t * 2;
+					t = 0;
+				}
+			}
+			else {
+				t -= (tim*d + (k - tim * d) + (d - k + tim * d) / 2);
+				ans += (tim+1) * d;
+			}
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 32000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+
+int n;
+int main() {
+	while (cin >> n) {
+		ll ans;
+		ans = 0;
+		for (int i = 2; i <= n; ++i) {
+			cout << "i=" << i << ":";
+			ll sum = 0;
+			for (int j = 1; j < i; ++j) {
+				long temp;
+				temp = j | (i - j);
+				sum += j | (i - j);
+				cout << temp << ' ';
+			}
+			ans += sum;
+			cout << "//ans:" << ans<<"//sum:"<<sum;
+			cout << endl;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}*/
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 1100000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+bool cmp(int a, int b) {
+	return a < b;
+}
+int a[MAXN],s[MAXN];
+int n,q;
+
+int main() {
+	while (scanf("%d%d",&n,&q)) {
+		Clear(a);
+		Clear(s);
+		int ans=0,temp;
+		for (int i = 1; i <= n; ++i) {
+			cin >> a[i];
+			ans^= a[i];
+			s[i] = ans;
+		}
+		for (int i = 1; i <= q; ++i) {
+			int l, r;
+			scanf("%d%d",&l,&r);
+			
+			ans = s[n] ^ (s[l - 1] ^ s[r]);
+			printf("%d\n", ans);
+		}
+		
+	}
+	return 0;
+}*/
+
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 362890
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int c[MAXN];
+int num[10];
+
+int main() {
+	int n;
+	Clear(c);
+	Clear(num);
+	c[1] = 1;
+	num[1] = 1;
+	cin >> n;
+	for (int i = 2; i <=n; ++i) {
+		int p = 1,k=num[i-1]*i;
+		for (int j = num[i - 1]; j >0; --j) {
+			int temp;
+			p = 1;
+			for (int z = 1; z <= i; ++z) {
+				temp = (c[j] / p) * 10 + i;
+				c[k] = temp * p + c[j] % p;
+				--k;
+				p *= 10;
+			}
+		}
+		num[i] = num[i - 1] * i;
+	}
+	int ans = 0;
+	for (int i = 1; i <= num[n]; ++i) {
+		ans ^= c[i];
+	}
+	cout << ans << endl;
+	return 0;
+}*/
+
+
+
+
+
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 320
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+
+int t, n;
+int num[MAXN];
+
+int main() {
+	cin >> t;
+	num[1] = 0;
+	for (int i = 2; i <= 300; ++i) {
+		int sum = 2;
+		int rema = i - 3;
+		for (int j = 1; j <= rema; ++j) {
+			sum += j * (i-1 - j-1) + 1;
+		}
+		num[i] = sum+num[i-1];
+		//cout << num[i] << ' ';
+	}
+	num[1] = 1;
+	while (t--) {
+		cin >> n;
+		cout << num[n]<<endl;
+	}
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 320
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+
+ll n;
+int sum;
+int main() {
+	cin >> n;
+	sum = 0;
+	while (n) {
+		sum += n % 10;
+		n /= 10;
+		if (sum > 23)
+			break;
+	}
+	if (sum == 23)
+		cout << "YES" << endl;
+	else cout << "NO" << endl;
+	return 0;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 320
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+
+ll n,ans;
+
+int main() {
+	ans = 0;
+	ll i = 0;
+	cin >> n;
+	while (i < n) {	++ans;
+		ll temp=ans,sum=0;
+		while (temp) {
+			sum += temp % 10;
+			temp /= 10;
+			if (sum > 23)
+				break;
+		}
+		if (sum == 23)
+			++i;
+	
+	}
+	cout << ans << endl;
+	return 0;
+}
+*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 1001000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int n, m;
+ull a[MAXN];
+int main() {
+	cin >> n >> m;
+	ull maxn = 0,tmaxn=0;
+	ull ans = 0;
+	for (int i = 1; i <= n; ++i) {
+		cin >> a[i];
+		if (a[i] > maxn)
+			maxn = a[i];
+	}
+	ull sum = 0;
+	for (int i = 1; i <= n; ++i) {
+		if (tmaxn < a[i])
+			tmaxn = a[i];
+		sum += a[i];
+		if (i%m == 0) {
+			
+			sum = tmaxn * m - sum;
+			ans += sum;
+			sum = 0;tmaxn = 0;
+		}
+	}
+	if (n%m) {
+		sum = tmaxn * (n%m) - sum;
+		ans += sum;
+	}
+	cout << ans << endl;
+	//system("pause");
+	return 0;
+}
+*/
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 100100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+struct bound {
+	int x1,x2;
+	int h;
+	int flag;
+	bool sign;
+}b[5];
+
+int x11, y11, x12, y12;
+int n;
+void exchange(int &a, int &b) {
+	a = a ^ b;
+	b = a ^ b;
+	a = a ^ b;
+}
+void coordinate_to_bounce() {
+	if (x11 > x12) {
+		exchange(x11, x12);
+	}
+	if (y11 > y12)
+		exchange(y11, y12);
+	b[n].x1 = b[n + 1].x1 = x11;
+	b[n].x2 = b[n + 1].x2 = x12;
+	b[n].h = y11;
+	b[n + 1].h = y12;
+	b[n].sign = true;
+	b[n + 1].sign = false;
+	b[n].flag = n;
+	b[n + 1].flag = n;
+	n+=2;
+}
+bool cmp(bound a, bound b) {
+	return a.h < b.h;
+}
+int main() {
+	while (cin >> x11 >> y11 >> x12 >> y12) {
+		n = 0;
+		coordinate_to_bounce();
+		cin >> x11 >> y11 >> x12 >> y12;
+		coordinate_to_bounce();
+		sort(b, b + n, cmp);
+		int ans=0;
+
+		ans += (b[1].h - b[0].h)*(b[0].x2 - b[0].x1);
+		int len;
+		if (b[1].sign == true) {
+			if ((b[1].x1<=b[0].x1)&&(b[0].x1<b[1].x2)||(b[1].x1<b[0].x2)&&(b[0].x2<=b[1].x2)|| (b[0].x1 <= b[1].x1) && (b[1].x1<b[0].x2) || (b[0].x1<b[1].x2) && (b[1].x2 <= b[0].x2)) {
+				len = -((b[1].x1 > b[0].x1 ? b[0].x1 : b[1].x1)- (b[1].x2 < b[0].x2 ? b[0].x2 : b[1].x2));
+			}
+			else {
+				len=b[1].x2 - b[1].x1 + b[0].x2 - b[0].x1;
+			}
+			//cout << len << "s";
+			ans += len * (b[2].h - b[1].h);
+			if (b[2].flag == b[1].flag)len = b[0].x2 - b[0].x1;
+			else len = b[1].x2 - b[1].x1;
+			ans += len * (b[3].h - b[2].h);
+		}
+		else {
+			ans += (b[2].x2 - b[2].x1)*(b[3].h - b[2].h);
+		}
+		cout << ans <<endl;
+	}return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 600
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+queue<int> situa;
+
+int step[MAXN];
+void translate(int &n, char c[4][4]) {
+	n = 0;
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			n <<= 1;
+			n += c[i][j] - '0';
+		}
+	}
+}
+void detranslate(int n, char c[4][4]) {
+	for (int i = 2; i >= 0; --i) {
+		for (int j = 2; j >= 0; --j) {
+			c[i][j] = '0' + (n & 1);// cout << c[i][j];
+			n >>= 1;
+		}
+	}
+}
+void change_light(char c[4][4], int i, int j) {
+	if (i - 1 >= 0)c[i - 1][j] = ((c[i - 1][j] - '0') + 1) % 2 + '0';
+	if(i+1<3)c[i + 1][j] = ((c[i + 1][j] - '0') + 1) % 2 + '0';
+	if (j - 1 >= 0) c[i][j-1] = ((c[i][j-1] - '0') + 1) % 2 + '0';
+	if(j+1<3)c[i][j+1] = ((c[i][j+1] - '0') + 1) % 2 + '0';
+	c[i][j] = ((c[i][j] - '0') + 1) % 2 + '0';
+}
+void bfs() {
+	while (!situa.empty()) {
+		int n = situa.front();
+		char c[4][4];
+		situa.pop();
+		//cout << n;
+		if (n == 511)return;
+		detranslate(n, c);
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 3; ++j) {
+				change_light(c, i, j);//cout << c[0] << endl << c[1] << endl << c[2] << endl << endl << endl;
+				int temp = 0;
+				translate(temp, c); 
+				change_light(c, i, j);
+				if (step[temp] > step[n] + 1)
+					step[temp] = step[n] + 1;
+				else continue;
+				//cout << temp << endl;
+				//system("pause");
+				if (temp == 511)
+					return;
+				situa.push(temp);
+			}
+		}
+	}
+}
+int main() {
+	char c[4][4];
+	int n=0;
+	for (int i = 0; i < 3; ++i)
+		cin >> c[i];
+	translate(n, c);
+	memset(step, inf, sizeof(step));
+	step[n] = 0;
+	situa.push(n);
+	bfs();
+	cout << step[511]<<endl;
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 50
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int a[MAXN][MAXN];
+int x[MAXN];
+bool freeX[MAXN];
+void gauss(int equ, int var) {
+	int row, col;
+	row = col = 0;
+	Clear(x);
+	for (int i = 0; i < var; ++i) {
+		freeX[i] = true;
+	}
+
+	for (row = col = 0; row < equ&&col < var; ++row, ++col) {
+		int maxrow = row;
+		for (int i = row + 1; i < equ; ++i) {
+			if (abs(a[maxrow][col]) < abs(a[i][col])) {
+				maxrow = i;
+			}
+		}
+		
+		if (maxrow!= row) {
+			for (int i = row; i < var+1; ++i) {
+				swap(a[maxrow][i], a[row][i]);
+			}
+	}if (a[row][col] == 0) {
+			row--;
+			continue;
+		}
+		for (int i = row + 1; i < equ; ++i) {
+			if(a[i][col]!=0)
+			for (int j = col; j < var+1; ++j) {
+				a[i][j] ^= a[row][j];
+			}
+		}
+	}
+	/*for (int i = row; i < equ; ++i) {
+		for (int j = 0; j < var+1; ++j) {
+			cout << a[i][j] << ' ';
+		}
+		cout << endl;
+	}
+	cout << endl << endl;*//*
+	for (int i = var - 1; i >= 0; --i) {
+		x[i] = a[i][var];
+		for (int j = i+1; j < var; ++j) {
+			x[i] ^= (x[j] && a[i][j]);
+		}
+	}
+}
+
+void Init(){
+	for (int i = 0; i < 5; ++i) {
+		for (int j = 0; j < 6; ++j) {
+			int t = i * 6 + j;
+			a[t][t] = 1;
+			if (i > 0)a[(i-1)*6+j][t] = 1;
+			if (i < 4)a[(i + 1) * 6 + j][t] = 1;
+			if (j > 0)a[i * 6 + j - 1][t] = 1;
+			if (j < 5)a[i * 6 + j + 1][t] = 1;
+		}
+	}
+}
+
+int main() {
+	int t;
+	cin >> t;
+	int p = 1;
+	while (t--) {Clear(a);
+		for (int i = 0; i < 30; ++i) {
+			cin >> a[i][30];
+		}
+		
+		Init();
+		gauss(30,30);
+		cout << "PUZZLE #" << p << endl;
+		for (int i = 0; i < 30; ++i) {
+			cout << x[i] << ' ';
+			if ((i + 1) % 6 == 0) {
+				cout << endl;
+			}
+		}
+		++p;
+	}
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 50
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int a[MAXN][MAXN];
+int d[MAXN], L[MAXN];
+bool freeX[MAXN];
+int x[MAXN];
+
+
+int gauss(int equ, int var) {
+	for (int i = 0; i <= var; ++i) {
+		freeX[i] = true;
+	}
+	Clear(x);
+	int row = 0;
+	int col = 0;
+	for (row = col = 0; row < equ&&col < var; ++row, ++col) {
+		int maxrow = row;
+		for (int i = row + 1; i < equ; ++i) {
+			if (abs(a[i][col]) > abs(a[maxrow][col])) {
+				maxrow = i;
+			}
+		}
+		if (a[maxrow][col] == 0) {
+			row--;
+			continue;
+		}
+		if (maxrow != row) {
+			for (int j = 0; j <= var; ++j) {
+				swap(a[row][j], a[maxrow][j]);
+			}
+		}
+		for (int i = row + 1; i < equ; ++i) {
+			if(a[i][col]==1)
+			for (int j = col; j <= var; ++j) {
+				a[i][j] ^= a[row][j];
+			}
+		}
+	}
+	for (int i = row; i < equ; ++i) {
+		if (a[i][var]) {
+			return -1;
+		}
+	}
+	if (row < var) {
+		int freenum = 0;
+		int freeindex = 0;
+		for (int i = row - 1; i >= 0; --i) {
+			freenum = 0;
+			freeindex = 0;
+			for (int j = 0; j < var; ++j) {
+				if (a[i][j] != 0 && freeX[j]) {
+					freenum++;
+					freeindex = j;
+				}
+			}
+			if (freenum > 1) {
+				continue;
+			}
+			int temp = a[i][var];
+			for (int j = i+1; j < var; ++j) {
+				if (a[i][j]&&j!=freeindex) {
+					temp ^= a[i][j]^x[j];
+				}
+			}
+			x[freeindex] = temp;
+			freeX[freeindex] = false;
+		}
+		return var - row;
+	}
+	for (int i = var - 1; i >= 0; --i) {
+		int temp = a[i][var];
+		for (int j = i+1; j < var; ++j) {
+			if (a[i][j] != 0) {
+				temp ^= a[i][j] ^ x[j];
+			}
+		}
+		x[i] = temp;
+	}
+	return 0;
+}
+
+int main() {
+	int k, n;
+	cin >> k;
+	while (k--) {
+		cin >> n;
+		Clear(a);
+		Clear(x);
+		Clear(d);
+		Clear(L);
+		for (int i = 0; i < n; ++i) {
+			cin >> L[i];
+			a[i][i] = 1;
+		}
+		for (int i = 0; i < n; ++i) {
+			cin >> d[i];
+			a[i][n] = d[i] ^ L[i];
+		}
+		int x, y;
+		while (cin >> x >> y && (x||y)) {
+			a[y - 1][x - 1]=1;
+		}
+		int num=0;
+		num=gauss(n, n);
+		/*for (int i = 0; i < n; ++i) {
+			for (int j = 0; j <= n; ++j) {
+				cout << a[i][j] << ' ';
+			}
+			cout << endl;
+		}cout << endl;*//*
+		if (num == 0)
+			cout<<"1"<<endl;
+		else if (num < 0) {
+			cout << "Oh,it's impossible~!!" << endl;
+		}
+		else cout << (1<<num) << endl;
+	}
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 1000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int a[MAXN][MAXN];
+int x[MAXN];
+bool freeX[MAXN];
+int freeE[MAXN];
+char c[MAXN][MAXN];
+int n;
+int u;
+int gauss(int equ,int var) {
+	u = 0;
+	for (int i = 0; i < var; ++i) {
+		freeX[i] = true;
+	}
+	Clear(x);
+	int row, col;
+	row = 0;
+	col = 0;
+	for (row = col = 0; row < equ&&col < var; ++row,++col) {
+		int maxrow = row;
+		for (int i = row + 1; i < equ; ++i) {
+			if (abs(a[i][col]) > abs(a[maxrow][col])) {
+				maxrow = i;
+			}
+		}
+		if (a[maxrow][col] == 0) {
+			--row;
+			freeE[u++] = col;
+			continue;
+		}
+		if (maxrow != row) {
+			for (int j = 0; j <= var; ++j) {
+				swap(a[row][j], a[maxrow][j]);
+			}
+		}
+		for (int i = row+1; i < equ; ++i) {
+			if (a[i][col] != 0) {
+				for (int j = col; j <= var; ++j) {
+					a[i][j] ^= a[row][j];
+				}
+			}
+		}
+	}
+
+	for (int i = row; i < var; ++i) {
+		if (a[i][var]) {
+			return -1;
+		}
+	}
+	if (row < var) {
+		int freenum=0;
+		int freeindex = 0;
+		for (int i = row - 1; i >= 0; --i) {
+			freenum = 0;
+			freeindex = 0;
+			for (int j = 0; j < var; ++j) {
+				if (a[i][j] && freeX[j]) {
+					++freenum;
+					freeindex = j;
+				}
+			}
+			if (freenum > 1) {
+				continue;
+			}
+			int temp = a[i][var];
+			for (int j = 0; j < var; ++j) {
+				if (a[i][j] &&j!=freeindex) {
+					temp ^= x[j] ^ a[i][j];
+				}
+			}
+			x[freeindex] = temp;
+			freeX[freeindex] = false;
+		
+		}return var - row;
+	}
+	for (int i = var - 1; i >= 0; --i) {
+		int temp = a[i][var];
+		for (int j = 0; j < var; ++j) {
+			if (a[i][j]) {
+				temp ^= a[i][j]*x[j];
+			}
+		}
+		x[i] = temp;
+
+	}	
+	return 0;
+}
+void Init() {
+	Clear(a);
+	for (int i = 0; i < n; ++i) {
+		for (int j = 0; j < n; ++j) {
+			int t = i * n + j;
+			a[t][t] = 1;
+			if (i > 0) a[(i - 1)*n + j][t]=1;
+			if (i < n - 1)a[(i + 1)*n + j][t] = 1;
+			if (j > 0) a[i * n + j-1][t]=1;
+			if (j < n - 1)a[i * n + j + 1][t]=1;
+			if (c[i][j] == 'w') {
+				a[t][n*n] = 1;
+			}
+			else a[t][n*n] = 0;
+		}
+	}
+}
+
+int solve(int p,int var) {
+	if (p == 0) {
+		int ans = 0;
+		for (int i = 0; i < var; ++i) {
+			ans += x[i];
+		}
+		return ans;
+	}
+	else if (p == -1) {
+		return -1;
+	}
+	int ans = inf;
+	int total = 1 << p;
+	for (int i = 0; i < total; ++i) {
+		int cnt = 0;
+		for (int j = 0; j < u; ++j) {
+			if (i&(1 << j)) {
+				x[freeE[j]] = 1;
+				cnt++;
+			}
+			else {
+				x[freeE[j]] = 0;
+			}
+		}
+		for (int k = var - u - 1; k >= 0; --k) {
+			int q = 0;
+			for (q = k; q < var; ++q) {
+				if (a[k][q])break;
+			}
+			x[q] = a[k][var];
+			for (int t = q + 1; t < var; ++t) {
+				if (a[k][t]) {
+					x[q] ^= x[t];
+				}
+			}
+			cnt += x[q];
+		}
+		ans = min(ans, cnt);
+	}
+	return ans;
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		cin >> n;
+		Clear(c);
+		for (int i = 0; i < n; ++i) {
+			cin >> c[i];
+		}
+		Init();
+		int num=0;
+		num=solve(gauss(n*n, n*n),n*n);
+		if(num>=0)
+		cout << num << endl;
+		else cout << "inf" << endl;
+	}
+	return 0;
+}*/
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 1000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int n;
+int a[MAXN];
+int main() {
+	cin >> n;
+	Clear(a);
+	for (int i = 1; i <= n; ++i) {
+		a[i * 2 - 1]=i;
+	}
+	for (int i = 2 * n; i > 0; --i) {
+		if (a[i] != 0) {
+			for (int j = i - 1; j > 0; --j) {
+				if (a[j] == 0) {
+					swap(a[i], a[j]);
+					break;
+				}
+			}
+		}
+	}
+	for (int i = 1; i <= n;++i) {
+		cout << a[i];
+	}cout << endl;
+	return 0;
+}*/
+
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 20000000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+bool flag[MAXN];
+int shaifa(int n) {
+	Clear(flag);
+	int num = 0;
+	for (int i = 2; i <= sqrt(MAXN-1); ++i) {
+		if (!flag[i]) {	
+	
+			for (int j = 2; j <= (MAXN-1 / i) + 1 && i*j <= MAXN-1; ++j) {
+				flag[i*j] = true;
+			}
+		}
+	}
+	for (int i = 2; i < MAXN; ++i) {
+		if (!flag[i]) {
+			++num;
+			if (num == n)
+				return i;		//cout << num<<' ';
+		}
+	}
+	return 0;
+}
+
+int main() {
+	int n;
+	while (cin >> n)
+	{
+		cout << shaifa(n) << endl;
+
+	}
+	return 0;
+}*/
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+
+int dp[MAXN][MAXN];
+
+int main() {
+	int n,m;
+	cin >> n>>m;
+	dp[1][1] = 2;
+	dp[1][0] = 1;
+	dp[0][1] = 1;
+	for (int i = 2; i < 11; ++i) {
+		dp[i][0] = 1;
+		dp[0][i] = 1;
+		for (int j = 1; j <= i; ++j) {
+			dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+			dp[j][i] = dp[j - 1][i] + dp[j][i - 1];
+		}
+	}
+	for (int i = 0; i <= n; ++i) {
+		for (int j = 0; j < n; ++j) {
+			cout << dp[i][j] << '\t';
+		}
+		cout << endl;
+	}
+	cout << dp[m][n] << endl;
+	system("pause");
+	return 0;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 110
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+ll a[MAXN][MAXN],result[MAXN][MAXN];	
+int n, m, k;
+ll temp[MAXN][MAXN];
+	
+void square_matrix_multiply(ll result[MAXN][MAXN],ll a[MAXN][MAXN]) {
+Clear(temp);
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 1; j <= n; ++j) {
+			temp[i][j] = result[i][j];
+		}
+	}
+	
+	for (int i = 1; i <=n; ++i) {
+		for (int j = 1; j <= n; ++j) {
+			ll sum = 0;
+			for (int k = 1; k <= n; ++k) {
+				sum += (temp[i][k] * a[k][j]);
+				//cout << result[i][k] << ' ' << a[k][j] <<' '<<sum<< endl;
+			}
+			result[i][j] = sum;
+		}
+	}
+}
 int main() {
 
+	cin >> n >> m >> k;
+	Clear(a);
+	Clear(result);
+	for (int i = 0; i < m; ++i) {
+		int u, v;
+		cin >> u >> v;
+		a[u][v]=1;
+		result[u][v] = 1;
+	}
+
+	for (int i = 2; i <=k; ++i) {
+		square_matrix_multiply(result, a);
+	}
+	ll ans=0;
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 1; j <= n; ++j) {
+			ans += result[i][j];
+			ans %= 19260817;
+			//cout << result[i][j] << ' ';
+		}
+	}
+	cout << ans << endl;
+
+	return 0;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 5000010
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+using namespace std;
+
+int n;
+bool primer[MAXN+10];
+int a[MAXN];
+void Eratosthenes() {
+	Clear(primer);
+	for (int i = 2; i <= sqrt(MAXN); ++i) {
+		if (!primer[i]) {
+			for (int j = 2; j <= (MAXN) / i + 1 && i*j <= MAXN; ++j) {
+				primer[i*j] = true;
+			}
+		}
+	}
+}
+int primer_divider(int p) {
+	if (!primer[p])
+		return p;
+	for (int i = 2; i <= p; ++i) {
+		if (!primer[i]&&p%i==0) {
+			return i;
+		}
+	}
+}
+int big_primer_divider(int p) {
+	if (!primer[p])
+		return p;
+	for (int i = p/2; i >= 2; --i) {
+		if (!primer[i]&&p%i == 0) {
+			return i;
+		}
+	}
+}
+int main() {
+	Eratosthenes();
+	for (int i = 2; i <= 100; ++i) {
+		int temp = 0;
+		for (int j = 2; j <= i; ++j) {
+			temp += primer_divider(j)^big_primer_divider(j);
+			//cout << big_primer_divider(j) << ' ' << primer_divider(j)<<' ';
+		}//cout << endl;
+		a[i] = temp;
+		cout <<i<<":"<< temp << "   ";
+		if (i % 10 == 0)
+			cout << endl;
+	}
+	cout << endl;
+	cin >> n;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 32200
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int a[MAXN];
+int suma[MAXN];
+
+int get_sum(int x) {
+	int ans = 0;
+	for (int i = x; i > 0; i -= lowbit(i)) {
+		ans += a[i];
+	}
+	return ans;
+}
+
+void add(int x) {
+	for (int i = x; i < MAXN; i += lowbit(i)) {
+		a[i]++;
+	}
+}
+
+int main() {
+	int n;
+	while (cin >> n) {
+		Clear(a);
+		Clear(suma);
+		for (int i = 0; i < n; ++i) {
+			int x, y;
+			cin >> x >> y;
+			x++;
+			suma[get_sum(x)]++;
+			add(x);
+		}
+		for (int i = 0; i < n; ++i)
+			cout << suma[i] << endl;
+	}
+	return 0;
+}*/
+
+
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#define MAXN 70000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+int T[MAXN],sumn[MAXN*32],L[MAXN*32],R[MAXN*32],S[MAXN];
+int ul[MAXN], ur[MAXN];
+int h[MAXN], a[MAXN];
+int n, m;
+int tot;
+int num = 0;
+void build(int &rt, int l, int r) {
+	rt = ++tot;
+	sumn[tot] = 0;
+	L[tot] = 0;
+	R[tot] = 0;
+	if (l == r)return;
+	int mid = (l + r) >> 1;
+	build(L[tot], l, mid);
+	build(R[tot], l, mid);
+}
+void update(int &rt, int pre, int l, int r, int x, int val) {
+	rt = ++tot;
+	L[rt] = L[pre];
+	R[rt] = R[pre];
+	sumn[rt] = sumn[pre] + val;
+	if (l == r)return;
+	int mid = (l + r) >> 1;
+	if (x <= mid)update(L[rt], L[pre], l, mid, x, val);
+	else update(R[rt], R[pre], mid + 1, r, x, val);
+}
+
+int Sum(int x, bool flag) {
+	int temp = 0;
+	while (x) {
+		if (flag) {
+			temp += sumn[L[ur[x]]];
+		}
+		else temp += sumn[L[ul[x]]];
+		x -= lowbit(x);
+	}
+	return temp;
+}
+int query(int s, int e, int ts, int te, int l, int r, int k) {
+	if (l == r)return l;
+	int res = Sum(e, true) - Sum(s, false) + sumn[L[te]] - sumn[L[ts]];
+	int mid = (l + r) >> 1;
+	if (k <= res) {
+		for (int i = e; i > 0; i -= lowbit(i))ur[i] = L[ur[i]];
+		for (int i = s; i > 0; i -= lowbit(i))ul[i] = L[ul[i]];
+		return query(s, e, L[ts], L[te], l, mid, k);
+	}
+	else {
+		for (int i = e; i > 0; i -= lowbit(i))ur[i] = R[ur[i]];
+		for (int i = s; i > 0; i -= lowbit(i))ul[i] = R[ul[i]];
+		return query(s, e, R[ts], R[te], mid + 1, r, k-res);
+	}
+}
+void add(int x, int val) {
+	int res = lower_bound(h + 1, h + 1 + num, a[x]) - h;
+	while (x<=n) {
+		update(S[x], S[x], 1, num,res,val);
+		x += lowbit(x);
+	}
+}
+struct Element {
+	int l, r, k;
+	bool flag;
+}Q[MAXN];
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		
+		cin >> n >> m;
+		tot = 0;
+		Clear(T);
+		Clear(S);
+		Clear(sumn);
+		Clear(L);
+		Clear(R);
+		Clear(h);
+		Clear(a);
+
+		
+		for (int i = 1; i <= n; ++i) {
+			cin >> a[i];
+			h[++num] = a[i];
+		}
+		for (int i = 1; i <= m; ++i) {
+			char c;
+			cin >> c;
+			if (c == 'Q') {
+				cin >> Q[i].l >> Q[i].r >> Q[i].k;
+				Q[i].flag = true;
+			}
+			else {
+				cin >> Q[i].l >> Q[i].r;
+				Q[i].flag = false;
+				h[++num] = Q[i].r;
+			}
+		}
+		sort(h + 1, h + num + 1);
+		num = unique(h + 1, h + 1 + num) - h - 1;
+		build(T[0], 1, num);
+		for (int i = 1; i <= n; ++i)update(T[i], T[i - 1], 1, num, lower_bound(h + 1, h + 1 + num, a[i]) - h, 1);
+		for (int i = 1; i <= n; ++i)S[i] = T[0];
+		for (int i=1; i <= m; ++i) {
+			if (Q[i].flag) {
+				for (int j = Q[i].l-1; j > 0; j -= lowbit(j))ul[j] = S[j];
+				for (int j = Q[i].r; j > 0; j -= lowbit(j))ur[j] = S[j];
+				int ans = query(Q[i].l - 1, Q[i].r, T[Q[i].l - 1], T[Q[i].r], 1, num, Q[i].k);
+				cout << h[ans] << endl;
+			}
+			else {
+				add(Q[i].l, -1);
+				a[Q[i].l] = Q[i].r;
+				add(Q[i].l, 1);
+			}
+		}
+	}
+	return 0;
 }
