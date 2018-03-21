@@ -10831,7 +10831,7 @@ int main() {
 	return 0;
 }*/
 
-
+/*
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
@@ -10964,4 +10964,49 @@ int main() {
 		}
 	}
 	return 0;
-}
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 51000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int a[MAXN];
+int n;
+
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		cin >> n;
+		for (int i = 0; i < n; ++i)
+			cin >> a[i];
+		int ans = n;
+		for (int i = n - 1; i >= 0; --i) {
+			if (a[i] == ans) {
+				--ans;
+			}
+		}
+		
+		cout << ans << endl;
+	}
+	return 0;
+}*///hdu5500
