@@ -10787,3 +10787,181 @@ int main() {
 	}
 	return 0;
 }*/
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 2000010
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+bitset<MAXN + 10> fu;
+int n;
+int main() {
+	while (cin >> n) {
+		fu.set(0);
+		for (int i = 0; i < n; ++i) {
+			int a;
+			cin >> a;
+			fu ^= fu << a;
+		}
+		int ans = 0;
+		for (int i = 0; i <= MAXN-10; ++i) {
+			if (fu[i])
+				ans ^= i;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}*/
+
+
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 51000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int a[MAXN],b[MAXN],c[MAXN],d[MAXN];
+struct node {
+	int l, r, k;
+	bool flag;
+}Q[MAXN];
+
+int insertion_sort_select(int* c, int p, int r,int num,bool flag) {
+	for (int i = p + 1; i <= r; ++i) {
+		int j = i - 1;
+		int key = c[i];
+		int sign = i;
+		while (j >= p && c[j] > key) {
+			c[j + 1] = c[j];
+			if (flag) {
+				d[j + 1] = d[j];
+			}
+			--j;
+		}
+		c[j + 1] = key;
+		if (flag)
+			d[j + 1] = sign;
+	}
+	d[num] = (p + r) / 2;
+	return c[(p + r) / 2];
+}
+
+int find_middle(int p, int r) {
+	int num=0;
+	Clear(c);
+	Clear(d);
+	for (int i = p; (i+4) <= r; i += 5) {
+		c[++num]=insertion_sort_select(a, i, i+4,num,false);
+	}
+	if ((r - p + 1) % 5) {
+		++num;
+		//cout << p << ' ' << r << ' ' << num << endl;
+		//system("pause");
+		
+		c[num]=insertion_sort_select(a,(num-1) * 5 + p, r,num,false);
+	}
+	 insertion_sort_select(c, 1, num,num+1,true);
+	 return d[d[num+1]];
+}
+int partition(int p, int r) {
+	int x = a[r];
+	int i = p - 1;
+	for (int j = p; j <= r - 1; ++j) {
+		if (a[j] <= x)
+		{
+			++i;
+			swap(a[i], a[j]);
+		}
+	}
+	swap(a[i + 1], a[r]);
+	return i + 1;
+}
+
+int randomized_partition(int p, int r) {
+	int i = find_middle(p,r);
+	swap(a[r], a[i]);
+	return partition(p, r);
+}
+
+int randomized_select(int p, int r, int i) {
+	if (p == r)
+		return a[p];
+	int q = randomized_partition(p, r);
+	int k = q - p + 1;
+	if (i == k)
+		return a[q];
+	else if (i < k)
+		return randomized_select(p, q - 1, i);
+	else return randomized_select(q + 1, r, i - k);
+}
+
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n, m;
+		cin >> n >> m;
+		for (int i = 1; i <= n; ++i) {
+			cin >> b[i];
+		}
+		for (int i = 1; i <= m; ++i) {
+			char c;
+			cin >> c;
+			if (c == 'Q') {
+				cin >> Q[i].l >> Q[i].r >> Q[i].k;
+				Q[i].flag = true;
+			}
+			else {
+				cin >> Q[i].l >> Q[i].r;
+				Q[i].flag = false;
+			}
+		}
+		n = unique(b + 1, b + 1 + n) - b-1;
+		for (int i = 1; i <= m; ++i) {
+			if (Q[i].flag) {
+				for (int i = 1; i <= n; ++i) {
+					a[i] = b[i];
+				}
+				cout << randomized_select(Q[i].l, Q[i].r, Q[i].k) << endl;
+			}
+			else {
+				b[Q[i].l] = Q[i].r;
+			}
+		}
+	}
+	return 0;
+}
