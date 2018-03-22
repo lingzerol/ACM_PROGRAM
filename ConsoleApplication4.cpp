@@ -11010,3 +11010,87 @@ int main() {
 	}
 	return 0;
 }*///hdu5500
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 51000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int n;
+ull a[MAXN];
+ull suma[MAXN];
+int main() {
+	while (cin >> n) {
+		Clear(a);
+		Clear(suma);
+		for (int i = 1; i <= n; ++i) {
+			cin >> a[i];
+			suma[i] = suma[i - 1] + a[i];
+		}
+		ull ans = 0;
+		int sum1, sum2, sum3;
+			sum1 = sum2 = sum3 = 0;
+			for (int i = 1; i <= n - 1; ++i) {
+				int temp[5];
+				Clear(temp);
+				sum1 = sum2 = sum3=0;
+				for (int j = 1; j < i; ++j) {
+					temp[1] = suma[j] - suma[0];
+					temp[2] = suma[i] - suma[j];
+					temp[3] = suma[n] - suma[i];
+				
+				sort(temp + 1, temp + 4);
+				if (temp[2] == sum2&&temp[1]<sum1) {
+					sum1 = temp[1];
+					sum2 = temp[2];
+					sum3 = temp[3];
+				}
+				if (temp[2] > sum2) {
+					sum2 = temp[2];
+					sum1 = temp[1];
+					sum3 = temp[3];
+				}
+				}
+				for (int j = n - 1; j > i; --j) {
+					temp[1] = suma[i] - suma[0];
+					temp[2] = suma[j] - suma[i];
+					temp[3] = suma[n] - suma[j];
+
+					sort(temp + 1, temp + 4);
+					if (temp[2] == sum2 && temp[1]<sum1) {
+						sum1 = temp[1];
+						sum2 = temp[2];
+						sum3 = temp[3];
+					}
+					if (temp[2] > sum2) {
+						sum2 = temp[2];
+						sum1 = temp[1];
+						sum3 = temp[3];
+					}
+				}
+				if (sum1 > ans)
+					ans = sum1;
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}*///hdu2615暴力violent method
