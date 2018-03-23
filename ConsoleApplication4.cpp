@@ -11094,3 +11094,242 @@ int main() {
 	}
 	return 0;
 }*///hdu2615暴力violent method
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 1000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int a[MAXN];
+int dp[MAXN][2];
+
+int main() {
+	int n;
+	while (cin >> n) {
+		for (int i = 1; i <= n; ++i) {
+			char c;
+			cin >> c;
+			if (c == 'U')
+			a[i] = 1;
+			else a[i] = 0;
+		}
+		Clear(dp);
+		for (int i = 2; i <= n; ++i) {
+			if (a[i] == 1 && a[i - 1] == 0 || a[i] == 0 && a[i - 1] == 1) {
+				dp[i][1] = dp[i - 1][0]+1;
+				dp[i][0] = dp[i - 1][1];
+			}
+			else {
+				dp[i][0] = max(dp[i - 1][0], dp[i - 1][1]);
+				dp[i][1] = 0;
+			}
+		}
+		cout << n-max(dp[n][0], dp[n][1])<<endl;
+	}
+	return 0;
+}*///the problem A
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 1000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int sa[MAXN], c[MAXN], wa[MAXN], wb[MAXN], Height[MAXN], ran[MAXN];
+int n, m;
+char str[MAXN];
+int sort_sa(int m, int n) {
+	int *x = wa, *y = wb, p = 0;
+	Clear(wa);
+	Clear(wb);
+	Clear(c);
+	Clear(sa);
+	for (int i = 0; i < n; ++i)c[x[i] = str[i]]++;
+	for (int i = 1; i < m; ++i)c[i] += c[i - 1];
+	for (int i = n - 1; i >= 0; --i)sa[--c[x[i]]] = i;
+	for (int k = 1; p < n; k <<= 1, m = p) {
+		p = 0;
+		for (int i = n - k; i < n; ++i)y[p++] = i;
+		for (int i = 0; i < n; ++i)if (sa[i] >= k)y[p++] = sa[i] - k;
+		Clear(c);
+		for (int i = 0; i < n; ++i)c[x[y[i]]]++;
+		for (int i = 1; i < m; ++i)c[i] += c[i - 1];
+		for (int i = n - 1; i >= 0; --i)sa[--c[x[y[i]]]] = y[i];
+		swap(x, y); x[sa[0]] = 0; p = 1;
+		for (int i = 1; i < n; ++i) {
+			if (y[sa[i]] == y[sa[i - 1]] && y[sa[i] + k] == y[sa[i - 1] + k])x[sa[i]] = p - 1;
+			else x[sa[i]] = p++;
+		}
+	}
+	return 1;
+}
+void Getheight() {
+	int k = 0, len = strlen(str);
+	Clear(ran);
+	Clear(Height);
+	for (int i = 0; i < len; ++i)ran[sa[i]] = i;
+	for (int i = 0; i < len; ++i) {
+		if (k)--k;
+		if (ran[i] != 0) {
+			int j = sa[ran[i] - 1];
+			while (str[j + k] == str[i + k]) ++k;
+			Height[ran[i]] = k;
+		}
+	}
+}
+int dp[MAXN];
+int main() {
+	while (cin >> n) {
+		cin >> str;
+		sort_sa(130, n);
+		Getheight();
+		//for (int i = 0; i < n + 1; ++i)cout << sa[i] << ' ' << endl;
+		for (int i = 0; i < n; ++i) {
+			dp[i] = inf;
+		}
+		dp[0] = 1;
+		//cout << ran[0] << ' ';
+		for (int i = 1; i < n; ++i) {
+			int p = ran[0], q = ran[i];
+			int minn = inf;
+			if (p > q)
+				swap(p, q);
+			for (int j = p + 1; j <= q; ++j) {
+				if (Height[j] < minn)
+					minn = Height[j];
+			}
+			if (minn!=inf&&minn >= i)
+			{
+				dp[2 * i - 1] = min(dp[i - 1] + 1, dp[2 * i - 1]);
+			}
+			dp[i] = min(dp[i],dp[i - 1] + 1);
+		}
+		/*for (int i = 0; i < n; ++i)cout << dp[i] << ' ';
+		cout << endl;*//*
+		cout << dp[n - 1] << endl;
+	}
+}*///B 其实可以暴力。。。
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 210000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+ll a[MAXN];
+int main() {
+	int n;
+	while (cin >> n) {
+		for (int i = 0; i < n; ++i)
+			cin >> a[i];
+		ll x, y;
+		x = y = inf;
+		ll temp = inf;
+		ll maxn = a[0];
+		//n=unique(a, a + n) - a;
+		bool flag= true;
+		for (int i = 1; i < n; ++i) {
+			if (abs(a[i] - a[i - 1]) == 0) 
+			{
+				flag = false;
+				break;
+			}
+			 if (abs(a[i] - a[i - 1]) > 1) {
+				if (temp == inf) {
+					temp = abs(a[i] - a[i - 1]);
+					y = temp;
+				}
+				int t = abs(a[i] - a[i - 1]);
+				if (t != temp) {
+					flag = false;
+					break;
+				}
+			}
+			maxn = maxn > a[i] ? maxn : a[i];
+		}
+		//cout << temp;
+		if(temp!=inf&&flag)
+		for (int i = 1; i < n; ++i) {
+			if (abs(a[i] - a[i - 1]) == 1) {
+				int y1 = a[i] % temp ? (a[i] / temp + 1) : a[i] / temp;
+				int y2 = a[i - 1] % temp ? (a[i - 1] / temp + 1) : a[i - 1] / temp;
+				if (y1!=y2) {
+					flag = false;
+					//cout << a[i] << ' ' << a[i - 1];
+					break;
+				}
+			}
+		}
+		if (!flag) { cout << "NO" << endl; continue; }
+		
+		
+		if (temp == inf) {
+			cout << "YES" << endl;
+			cout << "1 " << maxn << endl;
+		}
+		else {
+				if(maxn%temp)
+				x = (maxn / temp) + 1;
+				else x = maxn / temp;
+				if (x > 10e9 || y > 10e9) {
+					cout << "NO" << endl; continue;
+				}
+				cout << "YES" << endl;
+				cout << x << ' ' << y << endl;
+		}
+	}
+	return 0;
+}*///C
