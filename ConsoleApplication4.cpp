@@ -11333,3 +11333,173 @@ int main() {
 	}
 	return 0;
 }*///C
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 210000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int dp[MAXN];
+
+int main(){
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		Clear(dp);
+		dp[0] = 1;
+
+		for (int i = 1; i <= n; ++i) {
+			for (int j = 0; j < i; ++j) {
+				dp[i] += dp[j];
+			}
+		}
+		cout << dp[n] << endl;
+	}
+return 0;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 2000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+int dp[MAXN];
+string str;
+int main() {
+	while (cin>>str) {
+		Clear(dp);
+		for (int i = 0; i < str.size(); ++i)
+		{
+			dp[i] = 1;
+			if (str[i] >= 'A'&&str[i] <= 'Z')
+				str[i] += 32;
+		}
+		for (int i = (int)str.size() - 1; i >= 0; --i) {
+			int res = 0;
+			for (int j = i + 1; j < (int)str.size(); ++j) {
+				int temp = dp[j];
+				if (str[i] == str[j])
+					dp[j] = res + 2;
+				res = max(temp, res);
+			}
+		}
+		int temp=0;
+		for (int i = 0; i < str.size(); ++i) {
+			temp = temp < dp[i] ? dp[i] : temp;
+		}
+		cout << (int)str.size() - temp << endl;
+	}
+	return 0;
+}*/
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 2000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+ll x[MAXN], y[MAXN];
+ll d[MAXN];
+ll dis(ll x1, ll x2, ll y1, ll y2) {
+	return (x1 - x2)*(x1 - x2) + (y1 - y2)*(y1 - y2);
+}
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		for (int i = 0; i < n; ++i) {
+			cin >> x[i]>>y[i];
+		}
+		ll ans=0;
+		for (int j = 0; j < n; ++j) {
+			int num = 0;
+			for (int i = 0; i < n; ++i) {
+				if (i == j)
+					continue;
+				d[num++] = dis(x[i], x[j], y[i], y[j]);
+			}
+			sort(d, d + num);
+			int temp=1;
+			//cout << d[0] << ' ';
+			for (int i = 1; i < num; ++i) {
+				if (d[i] == d[i - 1]) {
+					++temp;
+				}
+				else {
+					ans += temp * (temp - 1);
+					temp = 1;
+				}
+				//cout << d[i] << ' ';
+			}
+			if (temp > 1)
+				ans += (temp)*(temp - 1);
+			//cout << endl;
+		}
+		if(ans)
+		cout << ans << endl;
+		else cout << "WA" << endl;
+	}
+	return 0;
+}*/
+
+
+
+
+
