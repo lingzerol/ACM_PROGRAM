@@ -11503,3 +11503,58 @@ int main() {
 
 
 
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 20000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int a[MAXN];
+
+int main() {
+	int n;
+	int t;
+	cin >> t;
+	while (t--) {
+		cin >> n;
+		Clear(a);
+		int num = 0;
+		for (int i = 2; i*i < n; ++i) {
+			int cnt = 0;
+			while (n%i == 0) {
+				n /= i;
+				cnt++;
+			}
+			if (cnt > 0) {
+				a[num++] = cnt;
+			}
+		}
+		if (n > 1)
+			a[num++] = 1;
+		ll ans=1;
+		for (int i = 0; i < num; ++i) {
+			ans *= (a[i] * 2 + 1);
+		}
+		cout << (ans + 1) / 2 << endl;
+	}
+	return 0;
+}*/
