@@ -11558,3 +11558,203 @@ int main() {
 	}
 	return 0;
 }*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 100100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+const int maxd = 17, maxc = 26, mod = (int)1e9 + 10,seed=29;
+int fa[maxd][MAXN], a[MAXN], b[MAXN], dep[MAXN], pw[MAXN], hh[maxc+5][MAXN];
+vector<int>e[MAXN];
+int t, n, q;
+
+
+void dfs(int u) {
+	for (vector<int>::iterator it = e[u].begin(); it != e[u].end(); ++it) {
+		int v = *it;
+		dep[v] = dep[u] + 1;
+		for (int i = 0, ch = a[v]; i < maxc; ++i, (ch += b[v]) >= maxc && (ch -= maxc)) {
+			hh[i][v] = ((ll)hh[i][u] * seed + ch) % mod;
+		}
+		dfs(v);
+	}
+}
+int main() {
+	pw[0] = 1;
+	for (int i = 1; i < MAXN; ++i) {
+		pw[i] = ((ll)pw[i-1] * seed) % mod;
+	}
+	cin >> t;
+	while (t--) {
+		cin >> n;
+		for (int i = 2; i <= n; ++i) {
+			char c;
+			cin >> fa[0][i] >> c >> b[i];
+			a[i] = c - 'a';
+			e[fa[0][i]].push_back(i);
+			b[i] %= maxc;
+		}
+
+		for (int i = 1; 1 << i <= n; ++i) {
+			for (int j = 1; j <= n; ++j) {
+				fa[i][j] = fa[i - 1][fa[i - 1][j]];
+			}
+		}
+		dfs(1);
+		cin >> q;
+		while (q--) {
+		
+			int u, v, w;
+			cin >> u >> v >> w;
+			w %= maxc;
+			for (int i = maxd - 1; i >= 0; --i) {
+				if (min(dep[u], dep[v]) < 1 << i) {
+					continue;
+				}
+				int uh = ((ll)hh[w][u] - (ll)hh[w][fa[i][u]] * pw[1 << i]) % mod;
+				int vh = ((ll)hh[w][v] - (ll)hh[w][fa[i][v]] * pw[1 << i]) % mod;
+				uh < 0 && (uh += mod);
+				vh < 0 && (vh += mod);
+				if (uh == vh) {
+					u = fa[i][u];
+					v = fa[i][v];
+				}
+			}
+			int uc = (a[u] + w * b[u]) % maxc, vc = (a[v] + w * b[v]) % maxc;
+			if (uc == vc)
+				cout << '=' << endl;
+			else if (uc < vc)
+				cout << '<' << endl;
+			else cout << '>' << endl;
+		}
+		for (int i = 1; i <= n; ++i)
+			vector<int>().swap(e[i]);
+	}
+	return 0;
+}*//*链接：https://www.nowcoder.com/acm/contest/90/B
+来源：牛客网
+
+有一无限循环字母表：
+
+
+
+现在有一棵n个节点（编号1 - n）的有根树（1为根），树边边权为一个字母θ，在每一时刻θ会向前跳K步变为相应字母（即树边边权改变），如：
+
+n每一时刻会向前跳3步，第1时刻变为q，第2时刻变为t，以此类推。
+
+w每一时刻会向前跳2步，第1时刻变为y，第2时刻变为a，以此类推。
+
+JK会给你Q个询问，让你判断两个节点在t时刻到根节点路径权值（路径权值为该节点到根节点的路径上字母按顺序拼成的字符串）的字典序大小关系。
+*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 100100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+const int maxd = 17,maxc = 26, seed = 29, mod = (int)1e9 + 5;
+int a[MAXN], b[MAXN], fa[maxd][MAXN], hh[maxc + 5][MAXN], pw[MAXN], dep[MAXN];
+int n, t, q;
+
+vector<int>e[MAXN];
+
+void dfs(int u) {
+	for (vector<int>::iterator it = e[u].begin(); it != e[u].end(); ++it) {
+		int v = *it;
+		dep[v] = dep[u] + 1;
+		for (int i = 0, ch = a[v]; i < maxc; ++i, (ch += b[v]) >= maxc && (ch -= maxc)) {
+			hh[i][v] = ((ll)hh[i][u] * seed + ch) % mod;
+		}
+		dfs(v);
+	}
+}
+
+int main() {
+	pw[0] = 1;
+	for (int i = 1; i < MAXN; ++i) {
+		pw[i] = ((ll)pw[i - 1] * seed) % mod;
+	}
+
+	cin >> t;
+	while (t--) {
+		cin >> n;
+		for (int i = 2; i <= n; ++i) {
+			char c;
+			cin >> fa[0][i] >> c >> b[i];
+			a[i] = c - 'a';
+			b[i] %= maxc;
+			e[fa[0][i]].push_back(i);
+		}
+		for (int i = 1; 1 << i<=n; ++i) {
+			for (int j = 1; j <= n; ++j) {
+				fa[i][j] = fa[i - 1][fa[i-1][j]];
+			}
+		}
+		dfs(1);
+		cin >> q;
+		while (q--) {
+			int u, v, w;
+			cin >> u >> v >> w;
+			w %= maxc;
+			for (int i = maxd - 1; i >= 0; --i) {
+				if (min(dep[u], dep[v]) < 1 << i)
+					continue;
+				int uh = ((ll)hh[w][u] - (ll)hh[w][fa[i][u]] * pw[1 << i]) % mod;
+				int vh = ((ll)hh[w][v] - (ll)hh[w][fa[i][v]] * pw[1 << i]) % mod;
+				uh < 0 && (uh += mod);
+				vh < 0 && (vh += mod);
+				if (vh == uh) {
+					v = fa[i][v];
+					u = fa[i][u];
+				}
+			}
+			int uc = (a[u] + b[u] * w)%maxc, vc = (a[v] + b[v] * w) % maxc;
+			if (uc == vc)
+				cout << '=' << endl;
+			else if (uc < vc)
+				cout << '<' << endl;
+			else cout << '>' << endl;
+		}
+		for(int i=1;i<=n;++i)
+		vector<int>().swap(e[i]);
+	}
+	return 0;
+}*///同上
