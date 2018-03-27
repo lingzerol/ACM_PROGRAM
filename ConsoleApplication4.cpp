@@ -11758,3 +11758,142 @@ int main() {
 	}
 	return 0;
 }*///同上
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 1001000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+ll a[MAXN], b[MAXN], c[MAXN];
+ll n, k;
+bool sign[MAXN];
+ll solve() {
+	
+	ll sum = 0;
+	k++;
+	for (int i = 0; i < n; ++i) {
+		sum += a[i];
+	}
+	ll aver = sum/n;
+	if (sum%n)return -1;
+	if (k >= n) {
+		for (int i = 0; i < n; ++i) {
+			if (aver != a[i])return -1;
+		}
+		return 0;
+	}
+	Clear(sign);
+	ll ans = 0;
+	for (int i = 0; i < n; ++i) {
+		if (sign[i])continue;
+		int num =1,j=(i+k)%n;
+		b[0] = a[i];
+		sign[i] = true;
+		ll sum=a[i];
+		while (!sign[j]) {
+			b[num++] = a[j];
+			sum += a[j];
+			sign[j] = true;
+			j = (j + k) % n;
+		}
+		if (sum % num)return -1;
+		if ((sum / num) != aver)return -1;
+		c[0] = b[0] - aver;
+		for (int i = 1; i < num; ++i) {
+			c[i] = c[i - 1] +b[i]- aver;
+		}
+		nth_element(c, c + num / 2, c + num);
+		ll mid = c[num / 2];
+		for (int i = 0; i < num; ++i) {
+			ans += abs(c[i] - mid);
+		}
+	}
+	return ans;
+}
+
+int main() {
+	while (cin >> n >> k) {
+		for (int i = 0; i < n; ++i) {
+			cin >> a[i];
+		}
+		ll ans = solve();
+		if (ans < 0) {
+			cout << "gg" << endl;
+		}
+		else cout << ans << endl;
+	}
+}*///C
+
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 10010000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+
+ll n, m, l;
+
+ll power(ll k, ll n) {
+	ll temp = 1;
+	ll ans = n;
+	while (k > 1) {
+		if (k & 1)temp = (temp*ans)% 998244353;
+		ans = (ans*ans)% 998244353;
+		k >>= 1;
+	}
+	return (ans*temp) % 998244353;
+}
+int main() {
+
+	while (cin >> n >> m >> l) {
+		ll ans = 1;
+		ll x, y,i;
+		if (n <= m) { cout << 0 << endl; continue; }
+		for (x = 1, y = 1, i = (n > 2 * m) ? m : n - m; i; --i) {
+			x = (x*(n+1-i)) % 998244353;
+			y = (y*i) % 998244353;
+		}
+	
+		ans = ((power(998244353-2,y)* x)% 998244353 *power(l,n-m))% 998244353;
+		cout << ans << endl;
+	}
+	return 0;
+}*///H?
