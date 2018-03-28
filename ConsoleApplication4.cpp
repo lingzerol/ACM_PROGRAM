@@ -11897,3 +11897,54 @@ int main() {
 	}
 	return 0;
 }*///H?
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 10010000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+const ll p = 998244353;
+ll n, m, l;
+ll  fast_power(ll a, ll b) {
+	ll ans=1;
+	while (b) {
+		if (b & 1)ans = (ans*a) % p;
+		a = (a*a) % p;
+		b >>= 1;
+	}
+	return ans;
+}
+
+int main() {
+	while (cin >> n >> m >> l) {
+		ll x, y,i;
+		x = y = 1;
+		if (m >= n) { cout << "0" << endl; continue; }
+		for (i = (n > 2 * m ? m : n - m); i; --i) {
+			x = (x*(n + 1 - i)) % p;
+			y = (y*i) % p;
+		}
+		//cout << fast_power(2, 3);
+		cout << ((fast_power(y,p-2)*x)%p*fast_power(n - m, l))%p << endl;;
+	}
+	return 0;
+}*/
