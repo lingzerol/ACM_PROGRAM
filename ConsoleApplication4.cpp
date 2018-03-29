@@ -11948,3 +11948,159 @@ int main() {
 	}
 	return 0;
 }*/
+
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+int t;
+int n, m;
+char c[MAXN][MAXN];
+char str[MAXN*MAXN + 5];
+void L() {
+	cout << m << ' ' << n << endl;
+	for (int j = m - 1; j >= 0; --j) {
+		for (int i = 0; i < n; ++i) {
+			if (c[i][j] == '-')
+				cout << '|';
+			else if (c[i][j] == '|')
+				cout << '-';
+			else cout << c[i][j];
+		}
+		cout << endl;
+	}
+}
+void LL() {
+	cout << n << ' ' << m << endl;
+	for (int i = n - 1; i >= 0; --i) {
+		for (int j = m - 1; j >= 0; --j)
+		{
+			cout << c[i][j];
+		}
+		cout << endl;
+	}
+}
+void R() {
+	cout << m << ' ' << n << endl;
+	for (int j = 0; j < m; ++j) {
+		for (int i = n - 1; i >= 0; --i) {
+			if (c[i][j] == '-')
+				cout << '|';
+			else if (c[i][j] == '|')
+				cout << '-';
+			else cout << c[i][j];
+		}
+		cout << endl;
+	}
+}
+int main() {
+	cin >> t;
+	while (t--) {
+		cin >> n >> m;
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < m; ++j) {
+				cin >> c[i][j];
+			}
+		}
+		getchar();
+		cin.getline(str,1002);
+		//cout << str;
+		int step = 0;
+		for (int i = 0; i < strlen(str); ++i) {
+			if (str[i] == 'L')
+				step=(++step)%4;
+			else step=(--step)%4;
+		}
+		step < 0 && (step += 4);
+		switch (step) {
+		case 0:
+			cout << n << ' ' << m << endl;
+			for (int i = 0; i < n; ++i) {
+				for (int j = 0; j < m; ++j) {
+					cout << c[i][j];
+				}
+				cout << endl;
+			}
+			break;
+		case 1:
+			L();
+			break;
+		case 2:
+			LL();
+			break;
+		default:
+			R();
+		}
+		cout << endl;
+		//cout << "s";
+		//system("pause");
+	}
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 101000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int a[MAXN];
+int t;
+int n;
+int main() {
+	cin >> t;
+	while (t--) {
+		cin >> n;
+		int minn=inf;
+		for (int i = 0; i < n; ++i) {
+			cin >> a[i];
+			minn = min(minn, a[i]);
+		}
+		ll step = 0;
+		for (int i = 0; i < n; ++i) {
+			step += a[i] - minn;
+		}
+		cout << step << ' ' << step + minn << endl;
+	}
+	return 0;
+}*//每次对n-1个加一，等价于对一个减1，那么最少的步数肯定是把所有值都减到最小值，就是步数，然后最后的值就是最小值加步数
