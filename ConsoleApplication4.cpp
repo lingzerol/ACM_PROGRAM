@@ -12103,4 +12103,279 @@ int main() {
 		cout << step << ' ' << step + minn << endl;
 	}
 	return 0;
-}*//每次对n-1个加一，等价于对一个减1，那么最少的步数肯定是把所有值都减到最小值，就是步数，然后最后的值就是最小值加步数
+}*///每次对n-1个加一，等价于对一个减1，那么最少的步数肯定是把所有值都减到最小值，就是步数，然后最后的值就是最小值加步数
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 101000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+string str;
+string ans;
+int n;
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		cin >> n;
+		cin >> str;
+		int len = str.size();
+		if (n <=1)
+		{
+			cout << str<<endl;
+			continue;
+		}
+			for (int i = 1; i <= n; ++i) {
+			int j = i;
+			if (j == 1 || j==n) {
+				while (j <= len) {
+					ans += str.at(j-1);
+					j += (n - 1) * 2;
+				}
+			}
+			else {
+				bool flag = true;
+				while (j <= len) {
+					ans += str.at(j - 1);
+					if (flag) {
+						j += (n - i) * 2;
+						flag = false;
+					}
+					else {
+						j += (i - 1) * 2;
+						flag = true;
+					}
+				}
+			}
+		}
+		cout << ans << endl;
+		str.clear();
+		ans.clear();
+		ans.shrink_to_fit();
+		str.shrink_to_fit();
+	}
+	return 0;
+}*/
+
+
+
+//start：求x^a==y^b?
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#define MAXN 100000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+const ll p = (ll)10e9;
+
+ll fast_power(ll a, ll b) {
+	ll ans = 1;
+	while (b) {
+		if (b & 1)ans = (ans*a) % p;
+		a = (a*a) % p;
+		b >>= 1;
+	}
+	return ans;
+}
+
+
+ll x, y, a, b;
+int t;
+ll divider[MAXN];
+ll number[MAXN];
+int main() {
+	cin >> t;
+	while (t--) {
+		cin >> x >> a >> y >> b;
+		int num = 0;
+		bool flag = true;
+		for (int i = 2; i*i <= x; ++i) {
+			if (x%i == 0) {
+				int temp = 0;
+				while (x%i == 0) {
+					x /= i;
+					temp++;
+				}
+				divider[num] = i;
+				number[num++] = temp * a;
+			}
+		}
+		if (x&&x != 1)
+			divider[num] = x, number[num++] = a;
+		int num2 = 0;
+		for (ll i = 2; i*i <= y; ++i) {
+			if (y%i == 0) {
+				int temp = 0;
+				while (y%i == 0) {
+					y /= i;
+					temp++;
+				}
+				if (divider[num2] != i || number[num2] != (temp*b)) {
+					flag = false;
+					break;
+				}
+				num2++;
+			}
+			if (num2 > num) {
+				flag = false;
+				break;
+			}
+		}
+		if (y > 1) {
+			if (x != y || a != b) {
+				flag = false;
+				
+			}num2++;
+		}
+		if (num != num2) {
+			flag = false;
+		}
+		if (flag == true) {
+			cout << "Yes" << endl;
+		}
+		else cout << "No" << endl;
+	}
+	return 0;
+}*///利用唯一分解定理
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <ctime>
+#define MAXN 100000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+
+ll fast_power(ll a, ll b,ll p) {
+	ll ans = 1;
+	while (b) {
+		if (b & 1)ans = (ans*a) % p;
+		a = (a*a) % p;
+		b >>= 1;
+	}
+	return ans;
+}
+ll x, a, y, b;
+int main() {
+	int t;
+	cin >> t;
+	srand((unsigned)time(NULL));
+	while (t--) {
+		//ll n;
+		bool flag = true;
+		//cin >> n;
+		cin >> x >> a >> y >> b;
+		for (int i = 0; i < 100; ++i) {
+			ll p = rand() + 1;
+			ll A = fast_power(x, a, p);
+			ll B = fast_power(y, b, p);
+			if (A != B)
+			{
+				flag = false;
+				break;
+			}
+		}
+		if (flag)cout << "Yes" << endl;
+		else cout << "No" << endl;
+	}
+	return 0;
+}*///对两个值进行哈希，可以用快速幂，一次可能有误差， 多哈希几次，判定错误的概率就几乎为0了
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <ctime>
+#define MAXN 100000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+double x, a, y, b;
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		cin >> x >> a >> y >> b;
+		double A = a * log10(x);
+		double B = b * log10(y);
+		if (fabs(A - B) < 10e-5) {
+			cout << "Yes" << endl;
+		}
+		else cout << "No" << endl;
+	}
+	return 0;
+}*///使用对数进行计算
+
+
+//end
