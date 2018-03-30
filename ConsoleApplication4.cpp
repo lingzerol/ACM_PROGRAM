@@ -12379,3 +12379,215 @@ int main() {
 
 
 //end
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <ctime>
+#define MAXN 100000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int a;
+int n;
+int main() {
+	while (cin >> n&&n<100) {
+		int num = 0;
+		int sum = 0;
+		bool flag = true;
+		for (int i = 0; i < n; ++i) {
+			cin >> a;
+			if (a != -1) {
+				sum += a;
+				if (a == 0 || a > n - 1)
+					flag = false;
+			}
+			else {
+				++num;
+			}
+		}
+		if (n < 0) {
+			cout << "No" << endl;
+		}
+		else if(n==0){
+			cout << "Yes" << endl;
+		}
+		else if (n == 1) {
+			if (sum)cout << "No" << endl;
+			else cout << "Yes" << endl;
+		}
+		else if (!flag) {
+			cout << "No" << endl;
+		}
+		else if (num) {
+			if ((sum + num) <= (n - 1) * 2) {
+				cout << "Yes" << endl;
+			}
+			else cout << "No" << endl;
+		}
+		else if (sum == (n - 1) * 2) {
+			cout << "Yes" << endl;
+		}
+		else cout << "No" << endl;
+	}
+	return 0;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <ctime>
+#define MAXN 100000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+const ll p = (ll)1e9 + 7;
+ll fast_power(ll a, ll b) {
+	ll ans = 1;
+	while (b) {
+		if (b & 1)ans = (ans*a) % p;
+		a = (a*a) % p;
+		b >>= 1;
+	}
+	return ans;
+}
+
+ll n, m;
+int main() {
+	cin >> m >> n;
+	cout << (m*fast_power(m - 1, n-1))%p<<endl;
+	return 0;
+}*/
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <ctime>
+#define MAXN 100100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int a[MAXN];
+int N,M;
+struct Node {
+	int number;
+	int m[21];
+	int val;
+}tt[MAXN<<1];
+int number, val;
+void build(int l, int r, int rt, int *m) {
+	if (l == r) {
+		tt[rt].number = 1;
+		Clear(tt[rt].m);
+		tt[rt].m[a[l]]++;
+		m[a[l]]++;
+		tt[rt].val = a[l];
+		return;
+	}
+	int mid = (l + r) >> 1;
+	Clear(tt[rt].m);
+	build(l, mid, rt << 1, tt[rt].m);
+	build(mid + 1, r, rt << 1 | 1, tt[rt].m);
+	tt[rt].val = 0;
+	tt[rt].number = 0;
+	for (int i = 1; i <= M; ++i) {
+		if (tt[rt].m[i]) {
+			tt[rt].val = i;
+			tt[rt].number ++;
+			m[i] += tt[rt].m[i];
+		}
+	}
+}
+
+ void query(int L,int R,int l, int r, int rt,int *m) {
+	if (L <= l && r <= R) {
+		val = max(val, tt[rt].val);
+		for (int i = 1; i <= M; ++i) {
+			if (tt[rt].m[i]) {
+				m[i]++;
+			}
+		}
+		return;
+	}
+	int mid = (l + r) >> 1;
+	if (L <= mid)query(L, R, l, mid, rt << 1,m);
+	if (R > mid)query(L, R, mid + 1, r, rt << 1 | 1,m);
+}
+
+
+ int main() {
+	 while (cin >> N >> M) {
+		 for (int i = 1; i <= N; ++i) {
+			 cin >> a[i];
+		 }
+		 int q=0;
+		 int m[24];
+		 build(1, N, 1, m);
+		 cin >> q;
+		 for (int i = 0; i < q; ++i) {
+			 int l, j;
+			 Clear(m);
+			 cin >> l >> j;
+			 number = 0;
+			 val = 0;
+			 query(l, j, 1, N, 1,m);
+			 for (int i = 1; i <= M; ++i) {
+				 if (m[i]) {
+					 number++;
+				 }
+			 }
+			 cout <<val * number << endl;
+		 }
+	 }
+	 return 0;
+ }*///有n个数，m种不同的树，问[l,r]中最大的数和数的种类数的积是多少，其中n个数中的任意一个数ai>=1&&ai<=m
