@@ -12685,3 +12685,110 @@ int main() {
 	}
 	return 0;
 }*///莫队算法
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <ctime>
+#define MAXN 1100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int bs[MAXN],bt[MAXN];
+int a[MAXN][MAXN];
+int n, m, s, t;
+struct Node{
+	int val;
+	int dis;
+};
+queue<Node> q;
+void bfs(int s,int*b) {
+	Node temp;
+	temp.val = s;
+	b[s] = 0;
+	temp.dis = 0;
+	q.push(temp);
+	while (!q.empty()) {
+		Node t1=q.front();
+		q.pop();
+		for (int i = 1; i <= n; ++i) {
+			if (a[t1.val][i]) {
+				if (b[i] > t1.dis + 1) {
+					b[i] = t1.dis + 1;
+					Node t2 = t1;
+					t2.val = i;
+					t2.dis = t1.dis + 1;
+					q.push(t2);
+				}
+			}
+		}
+	}
+}
+int main() {
+	while (cin >> n >> m >> s >> t) {
+		Clear(a);
+		for (int i = 0; i < m; ++i) {
+			int x, y;
+			cin >> x >> y;
+			a[x][y] = a[y][x] = 1;
+		}
+		MAXIMIZE(bs);
+		MAXIMIZE(bt);
+		bfs(s, bs);
+		bfs(t, bt);
+		/*for (int i = 1; i <= n; ++i) {
+			cout << bs[i] << " ";
+		}
+		cout << endl;
+		for (int j = 1; j <= n; ++j) {
+			cout << bt[j] << " ";
+		}
+		cout << endl;*//*
+		int ans = 0;
+		for (int i = 1; i <= n; ++i) {
+			for (int j = i+1; j <= n; ++j) {
+				if (!a[i][j]) {
+					if (i != s && i != t && j != s && j != t) {
+						if ((bs[i] + bt[j] + 1) >= bs[t] && (bs[j] + bt[i] + 1) >= bs[t]) {
+							ans++;
+						}
+					}
+					else if (i != s && i != t && (j == s || j == t)) {
+						if (j == s) {
+							if ((bt[i] + 1) >= bs[t])
+								ans++;
+						}
+						else if ((bs[i] + 1) >= bs[t])
+							ans++;
+					}
+					else if ((i == s || i == t) && j != t && j != s) {
+						if (i == s) {
+							if ((bt[j] + 1) >= bs[t])
+								ans++;
+						}
+						else if ((bs[j] + 1) >= bs[t])
+							ans++;
+					}
+				}
+			}
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}*///codeforces954D dfs最短路+遍历
