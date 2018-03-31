@@ -12591,3 +12591,97 @@ void build(int l, int r, int rt, int *m) {
 	 }
 	 return 0;
  }*///有n个数，m种不同的树，问[l,r]中最大的数和数的种类数的积是多少，其中n个数中的任意一个数ai>=1&&ai<=m
+
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <ctime>
+#define MAXN 100100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+int a[MAXN];
+int n, m, q;
+int block;
+int ans;
+int maxn;
+struct Query {
+	int l, r;
+	int no;
+}b[MAXN];
+int c[MAXN];
+int sign[MAXN];
+bool cmp(const Query&a, const Query&b) {
+	if (((a.l - 1) / block) != ((b.l - 1) / block)) {
+		return a.l < b.l;
+	}
+	return a.r < b.r;
+}
+void add(int n) {
+	if (sign[a[n]] == 0) {
+		ans++;
+	}
+	sign[a[n]]++;
+}
+void remove(int n) {
+	if (sign[a[n]] == 1) {
+		ans--;
+	}
+	sign[a[n]]--;
+
+}
+void solve() {
+	ans = 0;
+	maxn = 0;
+	int L, R;
+	L = R = 1;
+	Clear(sign);
+	add(1);
+	for (int i = 0; i < q; ++i) {
+		while (L < b[i].l) { remove(L++); }
+		while (L > b[i].l) { add(--L); }
+		while (R < b[i].r) { add(++R); }
+		while (R > b[i].r) { remove(R--); }
+		int j = m;
+		while (!sign[j])--j;
+		c[b[i].no] = ans * maxn;
+	}
+}
+int main() {
+	while (cin >> n >> m) {
+		for (int i = 1; i <= n; ++i) {
+			cin >> a[i];
+		}
+		cin >> q;
+		block = sqrt(n);
+		for (int i = 0; i < q; ++i) {
+			cin >> b[i].l >> b[i].r;
+			b[i].no = i;
+		}
+		sort(b, b + q, cmp);
+		solve();
+		for (int i = 0; i < q; ++i) {
+			cout << c[i] << endl;
+		}
+	}
+	return 0;
+}*///莫队算法
