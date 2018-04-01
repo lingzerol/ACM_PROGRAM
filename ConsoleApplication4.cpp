@@ -12792,3 +12792,315 @@ int main() {
 	}
 	return 0;
 }*///codeforces954D dfs最短路+遍历
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <ctime>
+#define MAXN 200100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+
+int n;
+long long T;
+struct Tap {
+	ll ml;
+	ll t;
+}a[MAXN];
+bool cmp(const Tap&a, const Tap&b) {
+	return a.t < b.t;
+}
+int main() {
+	cout << setiosflags(ios::fixed) << setprecision(15);
+	while (cin >> n >> T) {
+		ll sum = 0;
+		double summl = 0;
+		for (int i = 0; i < n; ++i) {
+			cin >> a[i].ml;
+			summl += a[i].ml;
+		}
+		for (int i = 0; i < n; ++i) {
+			cin >> a[i].t;
+			a[i].t = T - a[i].t;
+			sum += a[i].t*a[i].ml;
+		}
+		if (sum == 0) {
+			cout << summl << endl;
+			continue;
+		}
+		bool flag = true;
+		sort(a, a+n, cmp);
+		if (sum > 0) {	
+			int i = n-1;
+			while (i>=0&&sum > 0) {
+				if (a[i].t < 0) {
+					flag = false;
+					break;
+				}
+				if (a[i].t == 0) {
+					--i;
+					continue;
+				}
+				if ((sum - a[i].t*a[i].ml) >= 0) {
+					sum -= a[i].t*a[i].ml;
+					summl -= a[i].ml;
+				}
+				else {
+					summl -= ((double)sum / a[i].t);
+					sum = 0;
+				}
+				--i;
+			}
+			if (i < 0&&sum!=0)
+				flag = false;
+		}
+		else {
+			int i = 0;
+			while (i<n&&sum < 0) {
+				if (a[i].t > 0) {
+					flag = false;
+					break;
+				}
+				if (a[i].t == 0) {
+					++i;
+					continue;
+				}
+				if ((sum - a[i].t*a[i].ml) <= 0) {
+					sum -= a[i].t*a[i].ml;
+					summl -= a[i].ml;
+				}
+				else {
+					summl -= ((double)sum / a[i].t);
+					sum = 0;
+				}
+				++i;
+			}
+			if (i >= n&&sum!=0)
+				flag = false;
+		}
+		if (flag)
+			cout << summl << endl;
+		else cout << (double)0.0 << endl;
+	}
+	return 0;
+}*///codeforces954E 贪心
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <ctime>
+#define MAXN 11000
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+ll a[4];
+ll m, n;
+const ll p = 1000000007;
+ll sign[4];
+struct Points {
+	ll rows[4];
+	ll p;
+	bool sign;
+}P[MAXN*3];
+bool cmp(const Points&a, const Points&b) {
+	return a.p < b.p;
+}
+const ll model[4][4] = { {0,0,0,0},{0,1,1,0},{0,1,1,1},{0,0,1,1} };
+void Matrix_Multiply(ll a[4][4], ll b[4][4]) {
+	ll c[4][4];
+	for (int i = 1; i <= 3; ++i) {
+		for (int j = 1; j <= 3; ++j) {
+			c[i][j] = 0;
+			for (int k = 1; k <= 3; ++k) {
+				c[i][j] = (c[i][j]%p + ((a[i][k])%p * (b[k][j])%p)%p)%p;
+			}
+		}
+	}
+	for (int i = 1; i <= 3; ++i) {
+		for (int j = 1; j <= 3; ++j)
+			a[i][j] = c[i][j]%p;
+	}
+	/*cout << "rrrrr" << endl;
+	for (int i = 1; i <= 3; ++i) {
+		for (int j = 1; j <= 3; ++j)
+			cout <<c[i][j] << " ";
+		cout << endl;
+	}*//*
+}
+void fast_power(ll matrix[4][4], ll k) {
+	ll temp[4][4]; //cout << k << "ggg" << endl;
+	for (int i = 1; i <= 3; ++i) {
+		for (int j = 1; j <= 3; ++j)
+		{	if(i==j)
+			temp[i][j] = 1;
+		    else temp[i][j] = 0;
+		}
+	}
+	while (k) {
+		if (k & 1)Matrix_Multiply(temp, matrix);
+		Matrix_Multiply(matrix, matrix);
+		k >>= 1;
+	}
+	for (int i = 1; i <= 3; ++i) {
+		for (int j = 1; j <= 3; ++j)
+			matrix[i][j] = temp[i][j];
+	}
+	/*for (int i = 1; i <= 3; ++i) {
+		for (int j = 1; j <= 3; ++j)
+			cout << matrix[i][j] << " ";
+		cout << endl;
+	}*//*
+}
+void assign(ll *sign, ll matrix[4][4]) {
+	//for (int i = 1; i <= 3; ++i)cout << sign[i] << "sss";
+	//	cout << endl;
+	for (int i = 1; i <= 3; ++i)
+		for (int j = 1; j <= 3; ++j)
+			matrix[i][j] = model[i][j];
+	for (int i = 1; i <= 3; ++i) {
+		if (sign[i]) {
+			for (int j = 1; j <= 3; ++j) {
+				matrix[j][i] = 0;
+			}
+		}
+	}
+	/*for (int i = 1; i <= 3; ++i) {
+		for (int j = 1; j <= 3; ++j)
+			cout << matrix[i][j] << " ";
+		cout << endl;
+	}*//*
+}
+void get_sum(ll a[4], ll matrix[4][4]) {
+	ll b[4];
+	Clear(b);
+	for (int i = 1; i <= 3; ++i) {
+		b[i] = 0;
+		for (int j = 1; j <= 3; ++j) {
+			b[i] = (b[i]+(a[j] * matrix[j][i])%p)%p;
+		}
+	}
+	for (int i = 1; i <= 3; ++i)
+		a[i] = b[i];// cout << a[i] << ' ';
+	//cout << endl;
+}
+int main() {
+	while (cin >> n >> m) {
+		int num = 0;
+		Clear(P[num].rows);
+		P[num].p = 1;
+		P[num++].sign = true;
+		P[num].p = m+1;
+		Clear(P[num].rows);
+		P[num++].sign = false;
+		bool flag = true;
+		for (int i = 0; i < n; ++i) {
+			ll rows, l, r;
+			cin >> rows >> l >> r;
+			Clear(P[num].rows);
+			P[num].rows[rows] = 1;
+			
+			P[num].sign = true;
+			P[num++].p = l;
+			Clear(P[num].rows);
+			P[num].rows[rows] = 1;
+		
+			P[num].sign = false;
+			P[num++].p = r+1;
+			if (rows==2&&(l <= 1 && r >= 1 || l <= m && r >= m))
+				flag = false;
+		}
+		if (!flag)
+		{
+			cout << "0" << endl;
+			continue;
+		}
+	
+		sort(P, P + num, cmp);
+		ll l, r;
+		l = r = 2;
+		Clear(a);
+		Clear(sign);
+		a[2] = 1;
+		for (int i = 1; i < num; ++i) {
+			while (P[i].p == l) {
+				if (P[i].sign) {
+					sign[1] += P[i].rows[1];
+					sign[2] += P[i].rows[2];
+					sign[3] += P[i].rows[3];
+				}
+				else {
+					sign[1] -= P[i].rows[1];
+					sign[2] -= P[i].rows[2];
+					sign[3] -= P[i].rows[3];
+				}
+				/*for (int j = 1; j <= 3; ++j)cout << P[i].rows[j] << "ddd";
+				cout << endl;*//*
+				++i;
+			}
+			r = P[i].p;
+			--i;
+			if (l <= r)
+			{
+			ll matrix[4][4];
+			Clear(matrix);
+			assign(sign, matrix);
+			//cout << l << ' ' << r << "s\n";
+			
+				fast_power(matrix, r - l);
+				get_sum(a, matrix);
+			}
+			/*for (int i = 1; i <= 3; ++i) {
+				cout << a[i] << ' ';
+			}cout << endl;*//*
+			l = r;
+		}
+		cout << a[2] << endl;
+	}
+	return 0;
+}*///codeforces 954F
+/*There is a simple dynamic programming solution that works in O(m). Let's try to improve it.
+
+Firstly, if there are no obstacles in some column i and we have calculated the number of paths to every cell of the previous column, then we may get the values in column i by multiplying the vector of values in column i - 1 by the following matrix:
+(110
+ 111
+ 011)
+Then we may use binary exponentiation to skip long segments without obstacles in O(logk), where k is the length of the segment.
+
+Let's try to modify this matrix if we have to forbid some rows. All we need to change is to set every value in i-th row to 0 if i-th row is forbidden. So we may skip long segments not only if they don't contain any obstacles, but also if the set of forbidden rows doesn't change on this segment.
+
+So the solution is the following: divide the whole matrix into 2n + 1 segments by the endpoints of the obstacles, then in every segment the set of forbidden rows doesn't change (so we can skip it using fast matrix exponentiation).*/
+
