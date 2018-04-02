@@ -13104,3 +13104,85 @@ Let's try to modify this matrix if we have to forbid some rows. All we need to c
 
 So the solution is the following: divide the whole matrix into 2n + 1 segments by the endpoints of the obstacles, then in every segment the set of forbidden rows doesn't change (so we can skip it using fast matrix exponentiation).*/
 
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <queue>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <ctime>
+#define MAXN  500100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+ll a[MAXN];
+ll b[MAXN];
+ll N, R, K;
+
+bool judge(ll ans) {
+	Clear(b);
+	ll Ra = 0;
+	ll k = K;
+	for (int i = 0; i <= R; ++i) {
+		Ra += a[i];
+	}
+	for (int i = 0; i < N; ++i) {
+		if (Ra < ans) {
+			k -= (ans - Ra);
+			if (k < 0)
+				return false;
+		
+			b[min(N - 1, (ll)(i + R))]+= (ans - Ra);	
+			Ra = ans;
+		}
+		if (i >= R)Ra -= (a[i - R] + b[i - R]);
+		
+		if(i+R+1<N)Ra += a[i + R + 1];
+	}
+	return true;
+}
+
+int main() {
+	while (cin >> N >> R >> K) {
+		for (int i = 0; i < N; ++i) {
+			cin >> a[i];
+		}
+		ll l = 0, r = INF;
+		while (l <= r) {
+			ll mid = (l + r) >> 1;
+			if (judge(mid)) {
+				l = mid + 1;
+			}
+			else r = mid-1;
+		}
+		if (l == 0)
+			cout << 0 << endl;
+		else
+		cout << l-1 << endl;
+	}
+	return 0;
+}*///codeforces 954G - Castle Defense
+/*Firstly, if we may obtain reliability at least x, then we may obtain reliability not less than x - 1 with the same number of archers. So we may use binary search and check whether we may obtain reliability at least x.
+
+How can we check it? Let's find the leftmost section such that its defense level is less than x. Let its index be i. We obviously have to add some archers controlling this section, and since every section to the left of it is already controlled, the best option where to add archers is the section with index min(i + r, n). After we added enough archers, we move to next section such that its defense level is less than x and do the same. If we run out of archers without protecting all the sections, then it's impossible to obtain reliability x.
+
+To do checking in O(n), we may use prefix sums or "sliding window" technique.*/
+
+
+
+
