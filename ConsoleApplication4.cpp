@@ -1756,3 +1756,106 @@ int main() {
 	}
 	return 0;
 }*///“景驰科技杯”2018年华南理工大学程序设计竞赛 K
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <queue>
+#include <ctime>
+#define MAXN 300100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+int nextn[MAXN];
+void GetNextval(string& p)
+{
+	int pLen = p.size();
+	nextn[0] = -1;
+	int k = -1;
+	int j = 0;
+	while (j < pLen)
+	{
+		//p[k]表示前缀，p[j]表示后缀    
+		if (k == -1 || p[j] == p[k])
+		{
+			++j;
+			++k;
+			//较之前next数组求法，改动在下面4行  
+			if (p[j] != p[k])
+				nextn[j] = k;   //之前只有这一行  
+			else
+				//因为不能出现p[j] = p[ next[j ]]，所以当出现时需要继续递归，k = next[k] = next[next[k]]  
+				nextn[j] = nextn[k];
+		}
+		else
+		{
+			k = nextn[k];
+		}
+	}
+}
+int KmpSearch(string&s,string&p)
+{
+	int i = 0;
+	int j = 0;
+	int sLen = s.size();
+	int pLen = p.size();
+	int ans = 0;
+	while (i < sLen)
+	{
+		//①如果j = -1，或者当前字符匹配成功（即S[i] == P[j]），都令i++，j++      
+		if (j == -1 || s[i] == p[j])
+		{
+			i++;
+			j++;
+		}
+		else
+		{
+			//②如果j != -1，且当前字符匹配失败（即S[i] != P[j]），则令 i 不变，j = next[j]      
+			//next[j]即为j所对应的next值        
+			//ans = max(j, ans);	
+			j = nextn[j];
+		}
+	}
+	if(i==sLen)
+	ans = max(j, ans);
+	return ans;
+}
+vector<string> str;
+char temp[MAXN];
+int main() {
+	int n, q;
+	while (scanf("%d", &n) != EOF) {
+		
+		for (int i = 0; i < n; ++i) {
+			scanf("%s", temp);
+			str.push_back(temp);
+			str[i].shrink_to_fit();
+		}
+		scanf("%d", &q);
+		while (q--) {
+			int l, r;
+			scanf("%d%d", &l, &r);
+			if (l != r) {
+				GetNextval(str[r - 1]);
+				printf("%d\n", KmpSearch(str[l - 1], str[r - 1]));
+			}
+			else printf("%d\n", str[l - 1].size());
+		}
+		str.clear();
+	}
+	return 0;
+}*///“景驰科技杯”2018年华南理工大学程序设计竞赛 E
