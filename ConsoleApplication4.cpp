@@ -1859,3 +1859,105 @@ int main() {
 	}
 	return 0;
 }*///“景驰科技杯”2018年华南理工大学程序设计竞赛 E
+
+
+
+
+/*
+
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <queue>
+#include <ctime>
+#define MAXN 300100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+struct Node{
+	int fa;
+	int val;
+	int pre;
+	int len;
+	int times;
+	int l, r;
+}tree[MAXN];
+int n, q;
+int find(int x) {
+	if (tree[x].pre != x) {
+		return tree[x].pre=find(tree[x].pre);
+	}
+	return x;
+}
+void union_node(int u, int v) {
+	int l, r;
+	l = u;
+	r = v;
+	while (l != r) {
+		if (tree[l].len < tree[r].len)swap(l, r);
+		++tree[l].times;
+		if (tree[l].times != 1)
+		{
+			tree[l].pre = tree[l].fa;
+		}
+		else {
+			tree[l].l = min(u, v);
+			tree[l].r = max(u, v);
+		}
+		l = find(tree[l].fa);
+	}
+}
+
+int main() {
+	while (scanf("%d", &n) != EOF) {
+		tree[0].fa = tree[0].val = tree[0].pre =tree[0].len=tree[0].times= 0;
+		for (int i = 1; i < n; ++i) {
+			scanf("%d", &tree[i].fa);
+			tree[i].val = tree[i].pre = i;
+			tree[i].len = tree[tree[i].fa].len+1;
+			tree[i].times = 0;
+		}
+		scanf("%d", &q);
+		while (q--) {
+			char c;
+			getchar();
+			scanf("%c", &c);
+			//cout << c;
+		//	cin >> c;
+			if (c == 'R') {
+				int l, r;
+				scanf("%d%d", &l, &r);
+			//	cout<<l<<" "<<r;
+				//system("pause");
+				union_node(l, r);
+			}
+			else {
+				int node;
+				scanf("%d", &node);
+				//cout << node;
+				if (tree[node].times == 0) {
+					printf("Not yet\n");
+				}
+				else if (tree[node].times==1) {
+					printf("%d %d\n", tree[node].l, tree[node].r);
+				}
+				else printf("Many times\n");
+			}//system("pause");
+		}
+	}
+	return 0;
+}*///“景驰科技杯”2018年华南理工大学程序设计竞赛 B, 并查集路径压缩
