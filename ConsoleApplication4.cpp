@@ -1961,3 +1961,189 @@ int main() {
 	}
 	return 0;
 }*///“景驰科技杯”2018年华南理工大学程序设计竞赛 B, 并查集路径压缩
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <queue>
+#include <ctime>
+#define MAXN 300
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+ll dp1[MAXN], dp2[MAXN];
+ll n,m;
+int main() {
+	while (cin >> n >> m) {
+		Clear(dp1);
+		Clear(dp2);
+		dp2[0] = dp1[0]=1;
+
+		n = (n > m) ? m : n;
+		for (int i = 1; i <= n; ++i) {
+			for (int j = m; j >=i; --j) {
+				dp2[j] += dp2[j - i];
+			}
+			for (int j = i; j <= m; ++j) {
+				dp1[j] += dp1[j - i];
+			}
+		}
+		//dp2[m] = dp2[m] == -1 ? 0 : dp2[m];
+		cout << dp2[m] << ' '<< dp1[m] << endl;
+	}
+	return 0;
+}*/
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <queue>
+#include <ctime>
+#define MAXN 17
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+
+ll n;
+ll a[MAXN];
+ll dp[MAXN][MAXN][3];
+ll dfs(ll pos, ll mod, ll have,bool lim) {
+	if (pos <= 0)
+		return mod==0&&have == 2;
+	if (!lim&&dp[pos][mod][have] != -1) {
+		return dp[pos][mod][have];
+	}
+	ll num, i, ans, mod_x, have_x;
+	num = lim ? a[pos] : 9;
+	ans = 0;
+	for (i =0 ; i <= num; ++i) {
+		mod_x = (mod * 10 + i) % 17;
+		have_x = have;
+		if (have == 0 && i == 1) {
+			have_x = 1;
+		}
+		if (have == 1 && i != 1) {
+			have_x = 0;
+		}
+		if (have == 1 && i == 7) {
+			have_x = 2;
+		}
+		ans += dfs(pos - 1, mod_x, have_x, lim&&i == num);
+	}
+	if (!lim)dp[pos][mod][have] = ans;
+	return ans;
+}
+int main() {
+	while (cin >> n) {
+		ll temp = n;
+		ll num = 0;
+		memset(dp, -1, sizeof(dp));
+		Clear(a);
+		while (temp) {
+			a[++num] = temp % 10;
+			temp /= 10;
+		}
+		cout << dfs(num, 0, 0, true) << endl;
+	}
+	return 0;
+}*/
+
+
+
+
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <queue>
+#include <ctime>
+#define MAXN 17
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+ll n;
+ll dp[MAXN][MAXN][3];
+ll a[MAXN];
+
+ll dfs(ll pos, ll mod, ll have, bool lim) {
+	if (pos <= 0) {
+		return mod == 0 && have == 2;
+	}
+	if (!lim&&dp[pos][mod][have] != -1) {
+		return dp[pos][mod][have];
+	}
+	ll num, mod_x, have_x, ans;
+	ans = 0;
+	num = lim ? a[pos] : 9;
+	for (ll i = 0; i <= num; ++i) {
+		mod_x = (mod * 10 + i) % 13;
+		have_x = have;
+		if (have == 0 && i == 1) {
+			have_x = 1;
+		}if (have == 1 && i != 1) {
+			have_x = 0;
+		}if (have == 1 && i == 3) {
+			have_x = 2;
+		}
+		ans += dfs(pos - 1, mod_x, have_x, lim&&i == num);
+	}
+	if (!lim)dp[pos][mod][have] = ans;
+	return ans;
+}
+int main() {
+	while (~scanf("%lld", &n)) {
+		Clear(a);
+		memset(dp, -1, sizeof(dp));
+		ll len = 0;
+		while (n) {
+			a[++len] = n % 10;
+			n /= 10;
+		}
+		printf("%lld\n", dfs(len, 0, 0, true));
+	}
+	return 0;
+}*/
