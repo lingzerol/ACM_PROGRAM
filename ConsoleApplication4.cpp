@@ -2076,7 +2076,7 @@ int main() {
 		cout << dfs(num, 0, 0, true) << endl;
 	}
 	return 0;
-}*/
+}*///hdu 3652 数位dp
 
 
 
@@ -2146,4 +2146,71 @@ int main() {
 		printf("%lld\n", dfs(len, 0, 0, true));
 	}
 	return 0;
-}*/
+}*///数位dp
+/*
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <stdio.h>
+#include <algorithm>
+#include <stack>
+#include <cmath>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <bitset>
+#include <queue>
+#include <ctime>
+#define MAXN 500100
+#define inf 0x3f3f3f3f
+#define INF 0x3f3f3f3f3f3f3f3f
+#define ll long long
+#define ull unsigned long long
+#define Clear(a) memset((a),0,sizeof((a)))
+#define MAXIMIZE(a) memset((a),inf,sizeof(a));
+#define lowbit(x) ((x)&(-x))
+using namespace std;
+
+ll sum[MAXN];
+ll dp[MAXN];
+ll M;
+ll q[MAXN];
+ll head, tail;
+ll getDp(ll i, ll j) {
+	return dp[j] + (sum[i] - sum[j])*(sum[i] - sum[j]) + M;
+}
+ll getUp(ll j, ll k) {
+	return dp[j] + sum[j] * sum[j] - dp[k] - sum[k] * sum[k];
+}
+ll getDown(ll j, ll k) {
+	return 2 * (sum[j] - sum[k]);
+}
+
+int main() {
+	ll n;
+	while (~scanf("%lld%lld", &n, &M))
+	{
+		sum[0] = 0;
+		for (int i = 1; i <= n; ++i) {
+			scanf("%lld", &sum[i]);
+			sum[i] += sum[i - 1];
+		}
+		dp[0]  = 0;
+		head = 0;
+		tail = 1;
+		q[0] = 0;
+		for (int i = 1; i <= n; ++i) 
+		{
+			while (head + 1 < tail&&getUp(q[head+1],q[head])<=sum[i]*getDown(q[head+1],q[head])) {
+				head++;
+			}
+			dp[i] = getDp(i, q[head]);
+			while (head + 1 < tail&&getUp(i, q[tail - 1])*getDown(q[tail - 1], q[tail - 2]) <= getDown(i, q[tail - 1])*getUp(q[tail - 1], q[tail - 2])) {
+				tail--;
+			}
+			q[tail++] = i;
+		}
+		printf("%lld\n", dp[n]);
+	}
+	return 0;
+}*///hdu 3507 斜率dp
